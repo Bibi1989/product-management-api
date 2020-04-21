@@ -7,16 +7,20 @@ const express_1 = __importDefault(require("express"));
 const http_errors_1 = __importDefault(require("http-errors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const swaggerDoc = require("../swagger.json");
 var app = express_1.default();
 // import routes from the route module
 const users_1 = __importDefault(require("./routes/users"));
+const projects_1 = __importDefault(require("./routes/projects"));
 app.use(morgan_1.default("dev"));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(cookie_parser_1.default());
+app.use("/swagger", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDoc));
 // endpoints for imported routes
 app.use("/auth/v1", users_1.default);
-app.use("/api/v1/projects", users_1.default);
+app.use("/api/v1/projects", projects_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(http_errors_1.default(404));

@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from "express";
 import createError, { HttpError } from "http-errors";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import swaggerUi from "swagger-ui-express";
+const swaggerDoc = require("../swagger.json");
 
 var app = express();
 
@@ -14,9 +16,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+
 // endpoints for imported routes
 app.use("/auth/v1", userRoute);
-app.use("/api/v1/projects", userRoute);
+app.use("/api/v1/projects", projectRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {

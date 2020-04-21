@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const userController_1 = require("../controllers/userController");
 const db = require("../../database/models/");
 const { User, Project } = db;
 const router = express_1.Router();
@@ -29,15 +30,13 @@ router.get("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function
     res.json({ users });
 }));
 // route to create a user
-router.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield User.create({
-        first_name: "Savvy",
-        last_name: "Aremo",
-        email: "savvy@gmail.com",
-        phone: "1234567890",
-        password: "12345678",
-    });
-    res.json({ user });
+router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield userController_1.registerUser(req.body);
+    res.json({ data: user });
+}));
+router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield userController_1.loginUser(req.body);
+    res.json({ data: user });
 }));
 exports.default = router;
 //# sourceMappingURL=users.js.map

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { registerUser, loginUser } from "../controllers/userController";
 
 const db = require("../../database/models/");
 
@@ -24,15 +25,14 @@ router.get("/user/:id", async (req, res) => {
 });
 
 // route to create a user
-router.post("/user", async (req, res) => {
-  const user = await User.create({
-    first_name: "Savvy",
-    last_name: "Aremo",
-    email: "savvy@gmail.com",
-    phone: "1234567890",
-    password: "12345678",
-  });
-  res.json({ user });
+router.post("/register", async (req, res) => {
+  const user = await registerUser(req.body);
+  res.json({ data: user });
+});
+
+router.post("/login", async (req, res) => {
+  const user = await loginUser(req.body);
+  res.json({ data: user });
 });
 
 export default router;
