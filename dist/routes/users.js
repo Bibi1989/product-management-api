@@ -32,10 +32,12 @@ router.get("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function
 // route to create a user
 router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield userController_1.registerUser(req.body);
+    res.header("auth", user.token);
     res.json({ data: user });
 }));
 router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield userController_1.loginUser(req.body);
+    res.header("auth", user.token);
     res.json({ data: user });
 }));
 exports.default = router;

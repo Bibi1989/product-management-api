@@ -27,11 +27,13 @@ router.get("/user/:id", async (req, res) => {
 // route to create a user
 router.post("/register", async (req, res) => {
   const user = await registerUser(req.body);
+  res.header("auth", user.token);
   res.json({ data: user });
 });
 
 router.post("/login", async (req, res) => {
   const user = await loginUser(req.body);
+  res.header("auth", user.token);
   res.json({ data: user });
 });
 

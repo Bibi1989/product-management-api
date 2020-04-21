@@ -14,11 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const validateRegister_1 = require("../validation/validateRegister");
+const validateUser_1 = require("../validation/validateUser");
 const db = require("../../database/models");
 const { User } = db;
 exports.registerUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    const { value, error } = validateRegister_1.validateUserRegister(user);
+    const { value, error } = validateUser_1.validateUserRegister(user);
     if (error.first_name)
         return { status: "error", error: error.first_name };
     if (error.last_name)
@@ -38,7 +38,6 @@ exports.registerUser = (user) => __awaiter(void 0, void 0, void 0, function* () 
     const hashedPassword = yield bcryptjs_1.default.hash(value.password, salt);
     try {
         const registered = yield User.create(Object.assign(Object.assign({}, value), { password: hashedPassword }));
-        console.log(registered);
         const token = yield jsonwebtoken_1.default.sign(registered.dataValues, process.env.SECRET_KEY);
         return { status: "success", user: registered, token };
     }
@@ -47,7 +46,7 @@ exports.registerUser = (user) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    const { value, error } = validateRegister_1.validateUserLogin(user);
+    const { value, error } = validateUser_1.validateUserLogin(user);
     if (error.email)
         return { status: "error", error: error.email };
     if (error.password)
@@ -61,12 +60,11 @@ exports.loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     if (!validPassword)
         return { status: "error", error: "Password is not valid" };
     try {
-        // return await User.findOne({
-        //   where: { email: user.email },
-        // });
+        const token = yield jsonwebtoken_1.default.sign(checkUser.dataValues, process.env.SECRET_KEY);
         return {
             status: "success",
             user: Object.assign(Object.assign({}, checkUser.dataValues), { password: null }),
+            token,
         };
     }
     catch (error) {

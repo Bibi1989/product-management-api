@@ -4,7 +4,7 @@ import { UserInterface, LoginInterface } from "../interfaces/userInterface";
 import {
   validateUserRegister,
   validateUserLogin,
-} from "../validation/validateRegister";
+} from "../validation/validateUser";
 const db = require("../../database/models");
 
 const { User } = db;
@@ -31,8 +31,6 @@ export const registerUser = async (user: UserInterface) => {
       ...value,
       password: hashedPassword,
     });
-
-    console.log(registered);
 
     const token = await jwt.sign(registered.dataValues, process.env.SECRET_KEY);
 
@@ -63,12 +61,12 @@ export const loginUser = async (user: LoginInterface) => {
     return { status: "error", error: "Password is not valid" };
 
   try {
-    // return await User.findOne({
-    //   where: { email: user.email },
-    // });
+    const token = await jwt.sign(checkUser.dataValues, process.env.SECRET_KEY);
+
     return {
       status: "success",
       user: { ...checkUser.dataValues, password: null },
+      token,
     };
   } catch (error) {
     return error.message;
