@@ -5,11 +5,10 @@ import {
   createProject,
   getAllProjects,
   getAProject,
+  updateProject,
 } from "../controllers/projectController";
 
 const db = require("../../database/models/");
-
-const { User, Project } = db;
 
 const router = Router();
 
@@ -31,6 +30,14 @@ router.post("/", Auth, async (req: any, res) => {
   const { id } = req.user;
 
   const project = await createProject(id, req.body);
+
+  res.json({ data: project });
+});
+
+router.put("/:id", Auth, async (req: any, res) => {
+  const { id } = req.params;
+
+  const project = await updateProject(id, req.body);
 
   res.json({ data: project });
 });

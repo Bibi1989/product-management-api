@@ -13,7 +13,6 @@ const express_1 = require("express");
 const userAuth_1 = require("./userAuth");
 const projectController_1 = require("../controllers/projectController");
 const db = require("../../database/models/");
-const { User, Project } = db;
 const router = express_1.Router();
 // route to get all projects
 router.get("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -30,6 +29,11 @@ router.get("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void
 router.post("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.user;
     const project = yield projectController_1.createProject(id, req.body);
+    res.json({ data: project });
+}));
+router.put("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const project = yield projectController_1.updateProject(id, req.body);
     res.json({ data: project });
 }));
 exports.default = router;

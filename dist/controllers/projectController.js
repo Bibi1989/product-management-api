@@ -50,7 +50,41 @@ exports.getAProject = (id) => __awaiter(void 0, void 0, void 0, function* () {
             where: { id },
             include: [User],
         });
-        return { status: "success", data: project };
+        if (project)
+            return { status: "success", data: project };
+        return { status: "error", error: "Cant find this project" };
+    }
+    catch (error) {
+        return { status: "error", error: error.message };
+    }
+});
+exports.updateProject = (id, project) => __awaiter(void 0, void 0, void 0, function* () {
+    const { value, error } = validateProject_1.validateProject(project);
+    if (error.project_name)
+        return { status: "error", error: error.project_name };
+    if (error.project_identifier)
+        return { status: "error", error: error.project_identifier };
+    if (error.description)
+        return { status: "error", error: error.description };
+    if (error.start_date)
+        return { status: "error", error: error.start_date };
+    if (error.end_date)
+        return { status: "error", error: error.end_date };
+    try {
+        const projected = yield Project.findOne({
+            where: { id },
+            include: ["User"],
+        });
+        if (projected) {
+            const updatedProject = yield Project.update(value, {
+                where: { id },
+            });
+            return {
+                status: "success",
+                data: updatedProject,
+            };
+        }
+        return { status: "error", error: "Cant update this project" };
     }
     catch (error) {
         return { status: "error", error: error.message };
