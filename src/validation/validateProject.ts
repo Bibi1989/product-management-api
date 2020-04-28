@@ -1,4 +1,7 @@
-import { ProjectInterface } from "../interfaces/projectInterface";
+import {
+  ProjectInterface,
+  TaskInterface,
+} from "../interfaces/projectInterface";
 
 export const validateProject = (value: ProjectInterface) => {
   const {
@@ -23,6 +26,27 @@ export const validateProject = (value: ProjectInterface) => {
   }
   if (!end_date) {
     error.end_date = "End date field is empty";
+  }
+
+  return { value, error };
+};
+export const validateTask = (value: TaskInterface) => {
+  const { summary, status, priorty, project_sequence, due_date } = value;
+  const error: ProjectInterface | any = {};
+  if (!summary) {
+    error.summary = "Summary field is empty";
+  }
+  if (!status) {
+    error.status = "Status field is empty";
+  }
+  if (!priorty) {
+    error.priorty = "priorty field is empty";
+  }
+  if (!project_sequence) {
+    error.project_sequence = "Project Sequence field is empty";
+  }
+  if (!due_date) {
+    error.due_date = "Due date field is empty";
   }
 
   return { value, error };

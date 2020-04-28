@@ -6,6 +6,7 @@ import {
   getAllProjects,
   getAProject,
   updateProject,
+  deleteProject,
 } from "../controllers/projectController";
 
 const db = require("../../database/models/");
@@ -38,6 +39,14 @@ router.put("/:id", Auth, async (req: any, res) => {
   const { id } = req.params;
 
   const project = await updateProject(id, req.body);
+
+  res.json({ data: project });
+});
+
+router.delete("/:id", Auth, async (req: any, res) => {
+  const { id } = req.params;
+
+  const project = await deleteProject(id);
 
   res.json({ data: project });
 });

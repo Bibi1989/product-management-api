@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const validateProject_1 = require("../validation/validateProject");
 const db = require("../../database/models");
-const { Project, User } = db;
+const { Project, User, Task } = db;
 exports.createProject = (id, project) => __awaiter(void 0, void 0, void 0, function* () {
     const { value, error } = validateProject_1.validateProject(project);
     if (error.project_name)
@@ -24,6 +24,7 @@ exports.createProject = (id, project) => __awaiter(void 0, void 0, void 0, funct
         return { status: "error", error: error.start_date };
     if (error.end_date)
         return { status: "error", error: error.end_date };
+    console.log(value.project_identifier);
     const projects = Object.assign(Object.assign({}, value), { UserId: id });
     try {
         const createdProject = yield Project.create(projects);
@@ -36,7 +37,7 @@ exports.createProject = (id, project) => __awaiter(void 0, void 0, void 0, funct
 exports.getAllProjects = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const projects = yield Project.findAll({
-            include: [User],
+            include: [User, Task],
         });
         return { status: "success", data: projects };
     }
@@ -48,7 +49,7 @@ exports.getAProject = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const project = yield Project.findOne({
             where: { id },
-            include: [User],
+            include: [User, Task],
         });
         if (project)
             return { status: "success", data: project };
@@ -85,6 +86,27 @@ exports.updateProject = (id, project) => __awaiter(void 0, void 0, void 0, funct
             };
         }
         return { status: "error", error: "Cant update this project" };
+    }
+    catch (error) {
+        return { status: "error", error: error.message };
+    }
+});
+exports.deleteProject = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const deleted = yield Project.findOne({
+            where: { id },
+            include: ["User"],
+        });
+        if (deleted) {
+            const deletedProject = yield Project.destroy({
+                where: { id },
+            });
+            return {
+                status: "success",
+                data: deletedProject,
+            };
+        }
+        return { status: "error", error: "Cant delete this project" };
     }
     catch (error) {
         return { status: "error", error: error.message };

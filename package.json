@@ -5,7 +5,17 @@
   "scripts": {
     "watch-ts": "tsc -w",
     "watch-node": "nodemon ./bin/www",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript, Node\" -c \"yello.bold, cyan.bold\" \"yarn run watch-ts\" \"yarn run watch-node\""
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript, Node\" -c \"yello.bold, cyan.bold\" \"yarn run watch-ts\" \"yarn run watch-node\"",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=30000",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "dependencies": {
     "@hapi/joi": "^17.1.0",
@@ -23,21 +33,28 @@
     "@types/uuid": "^7.0.2",
     "bcrypt": "^3.0.8",
     "bcryptjs": "^2.4.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "concurrently": "^5.1.0",
     "cookie-parser": "~1.4.4",
+    "cross-env": "^7.0.2",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "jest": "^25.4.0",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^7.1.1",
     "mongoose": "^5.8.11",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.2",
+    "nyc": "^15.0.1",
     "pg": "^8.0.2",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.6",
     "sequelize-cli": "^5.5.1",
+    "supertest": "^4.0.2",
     "swagger-ui-express": "^4.1.4",
     "uuid": "^7.0.3"
   },

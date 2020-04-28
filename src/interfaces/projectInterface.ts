@@ -5,3 +5,12 @@ export interface ProjectInterface {
   start_date: string;
   end_date: string;
 }
+
+export interface TaskInterface {
+  summary: string;
+  status: string;
+  priorty: string;
+  project_sequence: string;
+  due_date: string;
+  ProjectId: number;
+}

@@ -10,6 +10,7 @@ var app = express();
 // import routes from the route module
 import userRoute from "./routes/users";
 import projectRoute from "./routes/projects";
+import taskRoute from "./routes/tasks";
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 // endpoints for imported routes
 app.use("/auth/v1", userRoute);
 app.use("/api/v1/projects", projectRoute);
+app.use("/api/v1/tasks", taskRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
