@@ -3,6 +3,7 @@ import createError, { HttpError } from "http-errors";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 const swaggerDoc = require("../swagger.json");
 
 var app = express();
@@ -12,6 +13,7 @@ import userRoute from "./routes/users";
 import projectRoute from "./routes/projects";
 import taskRoute from "./routes/tasks";
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

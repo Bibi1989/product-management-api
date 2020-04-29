@@ -34,9 +34,10 @@ exports.createProject = (id, project) => __awaiter(void 0, void 0, void 0, funct
         return { status: "error", error: error.message };
     }
 });
-exports.getAllProjects = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAllProjects = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const projects = yield Project.findAll({
+            where: { UserId: id },
             include: [User, Task],
         });
         return { status: "success", data: projects };

@@ -26,11 +26,13 @@ export const createProject = async (id: number, project: ProjectInterface) => {
   }
 };
 
-export const getAllProjects = async () => {
+export const getAllProjects = async (id: number) => {
   try {
     const projects = await Project.findAll({
+      where: { UserId: id },
       include: [User, Task],
     });
+
     return { status: "success", data: projects };
   } catch (error) {
     return { status: "error", error: error.message };

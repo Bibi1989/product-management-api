@@ -16,7 +16,8 @@ const db = require("../../database/models/");
 const router = express_1.Router();
 // route to get all projects
 router.get("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const projects = yield projectController_1.getAllProjects();
+    const { id } = req.user;
+    const projects = yield projectController_1.getAllProjects(id);
     res.json(projects);
 }));
 // route to get a single project

@@ -15,7 +15,8 @@ const router = Router();
 
 // route to get all projects
 router.get("/", Auth, async (req: any, res) => {
-  const projects = await getAllProjects();
+  const { id } = req.user;
+  const projects = await getAllProjects(id);
   res.json(projects);
 });
 

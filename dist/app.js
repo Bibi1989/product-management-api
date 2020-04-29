@@ -8,12 +8,14 @@ const http_errors_1 = __importDefault(require("http-errors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const cors_1 = __importDefault(require("cors"));
 const swaggerDoc = require("../swagger.json");
 var app = express_1.default();
 // import routes from the route module
 const users_1 = __importDefault(require("./routes/users"));
 const projects_1 = __importDefault(require("./routes/projects"));
 const tasks_1 = __importDefault(require("./routes/tasks"));
+app.use(cors_1.default());
 app.use(morgan_1.default("dev"));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
