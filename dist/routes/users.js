@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const userController_1 = require("../controllers/userController");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const db = require("../../database/models/");
 const { User, Project } = db;
 const router = express_1.Router();
@@ -20,6 +24,12 @@ router.get("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         include: [Project],
     });
     res.json({ users });
+}));
+router.get("/verify/:token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield jsonwebtoken_1.default.decode(req.params.token);
+    console.log(user);
+    const users = yield userController_1.VeryUser(user.id, user, req.params.token, res);
+    res.redirect("http://localhost:3000");
 }));
 // route to get a single user
 router.get("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,7 +41,7 @@ router.get("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function
 }));
 // route to create a user
 router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield userController_1.registerUser(req.body);
+    const user = yield userController_1.registerUser(req.body, res);
     if (user.status === "error")
         return res.status(404).json({ data: user });
     res.header("auth", user.token);

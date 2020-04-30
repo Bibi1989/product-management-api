@@ -5,11 +5,13 @@ import {
   validateUserRegister,
   validateUserLogin,
 } from "../validation/validateUser";
+import { sendMail } from "../mail/mail";
+import { Auth } from "../routes/userAuth";
 const db = require("../../database/models");
 
 const { User } = db;
 
-export const registerUser = async (user: UserInterface) => {
+export const registerUser = async (user: UserInterface, res: any) => {
   const { value, error } = validateUserRegister(user);
   if (error.first_name) return { status: "error", error: error.first_name };
   if (error.last_name) return { status: "error", error: error.last_name };
@@ -34,9 +36,42 @@ export const registerUser = async (user: UserInterface) => {
 
     const token = await jwt.sign(registered.dataValues, process.env.SECRET_KEY);
 
+    const message = `Click the link to verify your account ${
+      "http://localhost:5000/auth/v1/verify/" + token
+    }`;
+
+    sendMail(value.email, message, "Verify your account", res);
+
     return { status: "success", user: registered, token };
   } catch (error) {
     return error.message;
+  }
+};
+
+export const VeryUser = async (
+  id: any,
+  user: UserInterface,
+  token: string,
+  res: any
+) => {
+  if (token) {
+    let newUpdate = {
+      ...user,
+      isVerify: true,
+    };
+    let users = await User.update(newUpdate, {
+      where: { id },
+    });
+
+    return {
+      status: "success",
+      user: await User.findOne({
+        where: { id },
+      }),
+      token,
+    };
+  } else {
+    return { status: "error", error: "You have not verify your account" };
   }
 };
 

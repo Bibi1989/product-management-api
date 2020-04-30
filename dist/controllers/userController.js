@@ -15,9 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const validateUser_1 = require("../validation/validateUser");
+const mail_1 = require("../mail/mail");
 const db = require("../../database/models");
 const { User } = db;
-exports.registerUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
+exports.registerUser = (user, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { value, error } = validateUser_1.validateUserRegister(user);
     if (error.first_name)
         return { status: "error", error: error.first_name };
@@ -39,10 +40,30 @@ exports.registerUser = (user) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const registered = yield User.create(Object.assign(Object.assign({}, value), { password: hashedPassword }));
         const token = yield jsonwebtoken_1.default.sign(registered.dataValues, process.env.SECRET_KEY);
+        const message = `Click the link to verify your account ${"http://localhost:5000/auth/v1/verify/" + token}`;
+        mail_1.sendMail(value.email, message, "Verify your account", res);
         return { status: "success", user: registered, token };
     }
     catch (error) {
         return error.message;
+    }
+});
+exports.VeryUser = (id, user, token, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (token) {
+        let newUpdate = Object.assign(Object.assign({}, user), { isVerify: true });
+        let users = yield User.update(newUpdate, {
+            where: { id },
+        });
+        return {
+            status: "success",
+            user: yield User.findOne({
+                where: { id },
+            }),
+            token,
+        };
+    }
+    else {
+        return { status: "error", error: "You have not verify your account" };
     }
 });
 exports.loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
