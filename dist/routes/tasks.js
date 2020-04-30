@@ -14,18 +14,18 @@ const userAuth_1 = require("./userAuth");
 const taskController_1 = require("../controllers/taskController");
 const router = express_1.Router();
 // route to get all projects
-router.get("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const tasks = yield taskController_1.getAllTasks();
+router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const tasks = yield taskController_1.getAllTasks(req.body.ProjectId);
     res.json(tasks);
 }));
 // // route to get a single project
 router.get("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const task = yield taskController_1.getATask(id);
+    const task = yield taskController_1.getOne(id);
     res.json(task);
 }));
 // route to create a project
-router.post("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/add", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.user;
     const task = yield taskController_1.createTask(id, req.body);
     res.json({ data: task });
@@ -35,10 +35,15 @@ router.put("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void
     const project = yield taskController_1.updateTask(id, req.body);
     res.json({ data: project });
 }));
+router.patch("/status/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const project = yield taskController_1.updateStatus(id, req.body);
+    res.json({ data: project });
+}));
 router.delete("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const project = yield taskController_1.deleteTask(id);
-    res.json({ data: project });
+    const task = yield taskController_1.deleteTask(id);
+    res.json({ data: task });
 }));
 exports.default = router;
 //# sourceMappingURL=tasks.js.map

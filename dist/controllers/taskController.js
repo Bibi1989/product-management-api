@@ -38,9 +38,10 @@ exports.createTask = (id, project) => __awaiter(void 0, void 0, void 0, function
         return { status: "error", error: error.message };
     }
 });
-exports.getAllTasks = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAllTasks = (ProjectId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const tasks = yield Task.findAll({
+            where: { ProjectId },
             include: [User, Project],
         });
         return { status: "success", data: tasks };
@@ -49,7 +50,30 @@ exports.getAllTasks = () => __awaiter(void 0, void 0, void 0, function* () {
         return { status: "error", error: error.message };
     }
 });
-exports.getATask = (id) => __awaiter(void 0, void 0, void 0, function* () {
+// export const getAllTasks = async (id: number, ProjectId: number) => {
+//   try {
+//     const tasks = await Task.findAll({
+//       where: { id, ProjectId },
+//       include: [User, Project],
+//     });
+//     return { status: "success", data: tasks };
+//   } catch (error) {
+//     return { status: "error", error: error.message };
+//   }
+// };
+// export const getATask = async (id: number) => {
+//   try {
+//     const task = await Task.findOne({
+//       where: { id },
+//       include: [User, Project],
+//     });
+//     if (task) return { status: "success", data: task };
+//     return { status: "error", error: "Cant find this project" };
+//   } catch (error) {
+//     return { status: "error", error: error.message };
+//   }
+// };
+exports.getOne = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const task = yield Task.findOne({
             where: { id },
@@ -86,7 +110,34 @@ exports.updateTask = (id, task) => __awaiter(void 0, void 0, void 0, function* (
             });
             return {
                 status: "success",
-                data: updatedProject,
+                data: yield Task.findOne({
+                    where: { id },
+                    include: [User, Project],
+                }),
+            };
+        }
+        return { status: "error", error: "Cant update this project" };
+    }
+    catch (error) {
+        return { status: "error", error: error.message };
+    }
+});
+exports.updateStatus = (id, task) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const tasked = yield Task.findOne({
+            where: { id: id },
+            include: [User, Project],
+        });
+        if (tasked) {
+            const updatedTask = yield Task.update(task, {
+                where: { id: task.id },
+            });
+            return {
+                status: "success",
+                data: yield Task.findOne({
+                    where: { id },
+                    include: [User, Project],
+                }),
             };
         }
         return { status: "error", error: "Cant update this project" };

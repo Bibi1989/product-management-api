@@ -32,9 +32,10 @@ export const createTask = async (id: number, project: TaskInterface) => {
   }
 };
 
-export const getAllTasks = async () => {
+export const getAllTasks = async (ProjectId: number) => {
   try {
     const tasks = await Task.findAll({
+      where: { ProjectId },
       include: [User, Project],
     });
     return { status: "success", data: tasks };
@@ -42,8 +43,32 @@ export const getAllTasks = async () => {
     return { status: "error", error: error.message };
   }
 };
+// export const getAllTasks = async (id: number, ProjectId: number) => {
+//   try {
+//     const tasks = await Task.findAll({
+//       where: { id, ProjectId },
+//       include: [User, Project],
+//     });
+//     return { status: "success", data: tasks };
+//   } catch (error) {
+//     return { status: "error", error: error.message };
+//   }
+// };
 
-export const getATask = async (id: number) => {
+// export const getATask = async (id: number) => {
+//   try {
+//     const task = await Task.findOne({
+//       where: { id },
+//       include: [User, Project],
+//     });
+//     if (task) return { status: "success", data: task };
+
+//     return { status: "error", error: "Cant find this project" };
+//   } catch (error) {
+//     return { status: "error", error: error.message };
+//   }
+// };
+export const getOne = async (id: number) => {
   try {
     const task = await Task.findOne({
       where: { id },
@@ -78,7 +103,34 @@ export const updateTask = async (id: number, task: TaskInterface) => {
       });
       return {
         status: "success",
-        data: updatedProject,
+        data: await Task.findOne({
+          where: { id },
+          include: [User, Project],
+        }),
+      };
+    }
+    return { status: "error", error: "Cant update this project" };
+  } catch (error) {
+    return { status: "error", error: error.message };
+  }
+};
+export const updateStatus = async (id: number, task: any) => {
+  try {
+    const tasked = await Task.findOne({
+      where: { id: id },
+      include: [User, Project],
+    });
+
+    if (tasked) {
+      const updatedTask = await Task.update(task, {
+        where: { id: task.id },
+      });
+      return {
+        status: "success",
+        data: await Task.findOne({
+          where: { id },
+          include: [User, Project],
+        }),
       };
     }
     return { status: "error", error: "Cant update this project" };
