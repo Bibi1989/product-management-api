@@ -47,17 +47,6 @@ export const getAllTasks = async (ProjectId: number) => {
     return { status: "error", error: error.message };
   }
 };
-// export const getAllTasks = async (id: number, ProjectId: number) => {
-//   try {
-//     const tasks = await Task.findAll({
-//       where: { id, ProjectId },
-//       include: [User, Project],
-//     });
-//     return { status: "success", data: tasks };
-//   } catch (error) {
-//     return { status: "error", error: error.message };
-//   }
-// };
 
 // export const getATask = async (id: number) => {
 //   try {
