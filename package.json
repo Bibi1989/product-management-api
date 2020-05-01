@@ -7,10 +7,7 @@
     "watch-ts": "tsc -w",
     "watch-node": "nodemon ./bin/www",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript, Node\" -c \"yello.bold, cyan.bold\" \"yarn run watch-ts\" \"yarn run watch-node\"",
-    "migrate": "npx sequelize-cli db:migrate",
-    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
-    "test": "cross-env NODE_ENV=test jest --testTimeout=30000",
-    "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
+    "migrate": "npx sequelize-cli db:migrate"
   },
   "jest": {
     "testEnvironment": "node",
