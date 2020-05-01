@@ -24,7 +24,7 @@ router.get("/user", async (req, res) => {
 router.get("/verify/:token", async (req: any, res) => {
   const user: any = await jwt.decode(req.params.token);
   console.log(user);
-  const users = await VeryUser(user.id, user, req.params.token, res);
+  await VeryUser(user.id, user, req.params.token, res);
   res.redirect("http://localhost:3000");
 });
 

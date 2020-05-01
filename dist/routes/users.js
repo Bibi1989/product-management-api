@@ -28,7 +28,7 @@ router.get("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 router.get("/verify/:token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield jsonwebtoken_1.default.decode(req.params.token);
     console.log(user);
-    const users = yield userController_1.VeryUser(user.id, user, req.params.token, res);
+    yield userController_1.VeryUser(user.id, user, req.params.token, res);
     res.redirect("http://localhost:3000");
 }));
 // route to get a single user
