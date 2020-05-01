@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   registerUser,
   loginUser,
-  VeryUser,
+  // VeryUser,
 } from "../controllers/userController";
 import { Auth } from "./userAuth";
 import jwt from "jsonwebtoken";
@@ -21,12 +21,12 @@ router.get("/user", async (req, res) => {
   res.json({ users });
 });
 
-router.get("/verify/:token", async (req: any, res) => {
-  const user: any = await jwt.decode(req.params.token);
-  console.log(user);
-  await VeryUser(user.id, user, req.params.token, res);
-  res.redirect("http://localhost:3000");
-});
+// router.get("/verify/:token", async (req: any, res) => {
+//   const user: any = await jwt.decode(req.params.token);
+//   console.log(user);
+//   await VeryUser(user.id, user, req.params.token, res);
+//   res.redirect("http://localhost:3000");
+// });
 
 // route to get a single user
 router.get("/user/:id", async (req, res) => {
