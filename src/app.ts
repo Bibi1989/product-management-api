@@ -6,8 +6,9 @@ import swaggerUi from "swagger-ui-express";
 import cors from "cors";
 import dotenv from "dotenv";
 const swaggerDoc = require("../swagger.json");
-
-dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 
 var app = express();
 

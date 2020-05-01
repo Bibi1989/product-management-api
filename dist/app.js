@@ -11,7 +11,9 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const swaggerDoc = require("../swagger.json");
-dotenv_1.default.config();
+if (process.env.NODE_ENV !== "production") {
+    dotenv_1.default.config();
+}
 var app = express_1.default();
 // import routes from the route module
 const users_1 = __importDefault(require("./routes/users"));
