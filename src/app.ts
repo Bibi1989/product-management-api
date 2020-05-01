@@ -4,7 +4,10 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import swaggerUi from "swagger-ui-express";
 import cors from "cors";
+import dotenv from "dotenv";
 const swaggerDoc = require("../swagger.json");
+
+dotenv.config();
 
 var app = express();
 
