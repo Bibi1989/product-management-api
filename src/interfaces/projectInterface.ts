@@ -10,7 +10,7 @@ export interface TaskInterface {
   summary: string;
   status: string;
   priorty: string;
-  project_sequence: string;
+  project_sequence?: string;
   due_date: string;
   ProjectId: number;
 }

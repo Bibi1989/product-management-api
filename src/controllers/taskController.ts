@@ -1,5 +1,6 @@
 import { TaskInterface } from "../interfaces/projectInterface";
 import { validateTask } from "../validation/validateProject";
+import { v4 as uuid } from "uuid";
 const db = require("../../database/models");
 
 const { Project, User, Task } = db;
@@ -16,16 +17,19 @@ export const createTask = async (id: number, project: TaskInterface) => {
   const findProject = await Project.findOne({
     where: { id: value.ProjectId },
   });
+  const unique: string = uuid();
 
   if (!findProject) return { status: "error", error: "Project is not found" };
 
-  const projects = {
+  const tasks = {
     ...value,
     UserId: id,
+    project_sequence: `#${unique.slice(0, 6)}`,
     ProjectId: value.ProjectId,
   };
+  console.log({ tasks });
   try {
-    const createdTask = await Task.create(projects);
+    const createdTask = await Task.create(tasks);
     return { status: "success", data: createdTask };
   } catch (error) {
     return { status: "error", error: error.message };

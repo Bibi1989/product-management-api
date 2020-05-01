@@ -16,6 +16,7 @@ const router = express_1.Router();
 // route to get all projects
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const tasks = yield taskController_1.getAllTasks(req.body.ProjectId);
+    // console.log(req.protocol + "://" + req.get("host") + req.originalUrl);
     res.json(tasks);
 }));
 // // route to get a single project

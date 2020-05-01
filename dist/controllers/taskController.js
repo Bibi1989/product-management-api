@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const validateProject_1 = require("../validation/validateProject");
+const uuid_1 = require("uuid");
 const db = require("../../database/models");
 const { Project, User, Task } = db;
 exports.createTask = (id, project) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,11 +28,13 @@ exports.createTask = (id, project) => __awaiter(void 0, void 0, void 0, function
     const findProject = yield Project.findOne({
         where: { id: value.ProjectId },
     });
+    const unique = uuid_1.v4();
     if (!findProject)
         return { status: "error", error: "Project is not found" };
-    const projects = Object.assign(Object.assign({}, value), { UserId: id, ProjectId: value.ProjectId });
+    const tasks = Object.assign(Object.assign({}, value), { UserId: id, project_sequence: `#${unique.slice(0, 6)}`, ProjectId: value.ProjectId });
+    console.log({ tasks });
     try {
-        const createdTask = yield Task.create(projects);
+        const createdTask = yield Task.create(tasks);
         return { status: "success", data: createdTask };
     }
     catch (error) {

@@ -21,7 +21,7 @@ exports.validateProject = (value) => {
     return { value, error };
 };
 exports.validateTask = (value) => {
-    const { summary, status, priorty, project_sequence, due_date } = value;
+    const { summary, status, priorty, due_date } = value;
     const error = {};
     if (!summary) {
         error.summary = "Summary field is empty";
@@ -31,9 +31,6 @@ exports.validateTask = (value) => {
     }
     if (!priorty) {
         error.priorty = "priorty field is empty";
-    }
-    if (!project_sequence) {
-        error.project_sequence = "Project Sequence field is empty";
     }
     if (!due_date) {
         error.due_date = "Due date field is empty";

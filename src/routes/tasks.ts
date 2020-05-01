@@ -14,6 +14,7 @@ const router = Router();
 // route to get all projects
 router.post("/", async (req: any, res) => {
   const tasks = await getAllTasks(req.body.ProjectId);
+  // console.log(req.protocol + "://" + req.get("host") + req.originalUrl);
   res.json(tasks);
 });
 
@@ -27,7 +28,6 @@ router.get("/:id", Auth, async (req: any, res) => {
 // route to create a project
 router.post("/add", Auth, async (req: any, res) => {
   const { id } = req.user;
-
   const task = await createTask(id, req.body);
 
   res.json({ data: task });

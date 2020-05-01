@@ -31,7 +31,7 @@ export const validateProject = (value: ProjectInterface) => {
   return { value, error };
 };
 export const validateTask = (value: TaskInterface) => {
-  const { summary, status, priorty, project_sequence, due_date } = value;
+  const { summary, status, priorty, due_date } = value;
   const error: ProjectInterface | any = {};
   if (!summary) {
     error.summary = "Summary field is empty";
@@ -41,9 +41,6 @@ export const validateTask = (value: TaskInterface) => {
   }
   if (!priorty) {
     error.priorty = "priorty field is empty";
-  }
-  if (!project_sequence) {
-    error.project_sequence = "Project Sequence field is empty";
   }
   if (!due_date) {
     error.due_date = "Due date field is empty";
