@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+const nodemailer_sendgrid = require("nodemailer-sendgrid");
 
 export const sendMail = (
   email: string,

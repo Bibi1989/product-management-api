@@ -36,11 +36,14 @@ export const registerUser = async (user: UserInterface, res: any) => {
 
     const token = await jwt.sign(registered.dataValues, process.env.SECRET_KEY);
 
+    const message = `Click the link to verify your account ${
+      "http://localhost:5000/auth/v1/verify/" + token
+    }`;
     // const message = `Click the link to verify your account ${
-    //   "http://localhost:5000/auth/v1/verify/" + token
+    //   "https://b-manager.netlify.app/auth/v1/verify/" + token
     // }`;
 
-    // sendMail(value.email, message, "Verify your account", res);
+    sendMail(value.email, message, "Verify your account", res);
 
     return { status: "success", user: registered, token };
   } catch (error) {
@@ -48,32 +51,33 @@ export const registerUser = async (user: UserInterface, res: any) => {
   }
 };
 
-// export const VeryUser = async (
-//   id: any,
-//   user: UserInterface,
-//   token: string,
-//   res: any
-// ) => {
-//   if (token) {
-//     let newUpdate = {
-//       ...user,
-//       isVerify: true,
-//     };
-//     let users = await User.update(newUpdate, {
-//       where: { id },
-//     });
+export const VeryUser = async (
+  id: any,
+  user: UserInterface,
+  token: string,
+  res: any
+) => {
+  if (token) {
+    let newUpdate = {
+      ...user,
+      isVerify: true,
+    };
 
-//     return {
-//       status: "success",
-//       user: await User.findOne({
-//         where: { id },
-//       }),
-//       token,
-//     };
-//   } else {
-//     return { status: "error", error: "You have not verify your account" };
-//   }
-// };
+    let users = await User.update(newUpdate, {
+      where: { id },
+    });
+
+    return {
+      status: "success",
+      user: await User.findOne({
+        where: { id },
+      }),
+      token,
+    };
+  } else {
+    return { status: "error", error: "You have not verify your account" };
+  }
+};
 
 export const loginUser = async (user: LoginInterface) => {
   const { value, error } = validateUserLogin(user);
