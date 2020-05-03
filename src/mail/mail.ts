@@ -21,7 +21,7 @@ export const sendMail = (
   });
 
   const mailOptions = {
-    from: "app169844034@heroku.com",
+    from: "bibiaremieye1@gmail.com",
     to: email,
     subject,
     text: message,
