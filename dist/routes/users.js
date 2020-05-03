@@ -57,7 +57,9 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 router.delete("/delete/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const destroy = yield db.User.destroy(id);
+    const destroy = yield db.User.destroy({
+        where: { id: Number(id) },
+    });
     res.json({ destroy });
 }));
 exports.default = router;

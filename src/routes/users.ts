@@ -53,7 +53,9 @@ router.post("/login", async (req, res) => {
 });
 router.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
-  const destroy = await db.User.destroy(id);
+  const destroy = await db.User.destroy({
+    where: { id: Number(id) },
+  });
   res.json({ destroy });
 });
 
