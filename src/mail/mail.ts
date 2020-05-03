@@ -24,6 +24,6 @@ export const sendMail = (email: string, message: string, subject: string) => {
 
   transporter.sendMail(mailOptions, (err: Error, data: any) => {
     if (err) console.log(err);
-    else console.log("Email sent!!!");
+    else console.log("Email sent!!!" + data);
   });
 };

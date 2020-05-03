@@ -28,7 +28,7 @@ exports.sendMail = (email, message, subject) => {
         if (err)
             console.log(err);
         else
-            console.log("Email sent!!!");
+            console.log("Email sent!!!" + data);
     });
 };
 //# sourceMappingURL=mail.js.map

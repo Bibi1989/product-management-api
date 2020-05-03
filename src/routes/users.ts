@@ -24,8 +24,8 @@ router.get("/verify/:token", async (req: any, res) => {
   const user: any = await jwt.decode(req.params.token);
   console.log(user);
   await VeryUser(user.id, user, req.params.token, res);
-  res.redirect("http://localhost:3000");
-  // res.redirect("https://b-manager.netlify.app");
+  // res.redirect("http://localhost:3000");
+  res.redirect("https://b-manager.netlify.app");
 });
 
 // route to get a single user

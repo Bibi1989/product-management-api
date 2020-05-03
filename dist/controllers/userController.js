@@ -40,10 +40,10 @@ exports.registerUser = (user) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const registered = yield User.create(Object.assign(Object.assign({}, value), { password: hashedPassword }));
         const token = yield jsonwebtoken_1.default.sign(registered.dataValues, process.env.SECRET_KEY);
-        const message = `Click the link to verify your account ${"http://localhost:5000/auth/v1/verify/" + token}`;
         // const message = `Click the link to verify your account ${
-        //   "https://b-manager.netlify.app/auth/v1/verify/" + token
+        //   "http://localhost:5000/auth/v1/verify/" + token
         // }`;
+        const message = `Click the link to verify your account ${"https://b-manager.netlify.app/auth/v1/verify/" + token}`;
         mail_1.sendMail(value.email, message, "Verify your account");
         return { status: "success", user: registered, token };
     }

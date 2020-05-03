@@ -29,8 +29,8 @@ router.get("/verify/:token", (req, res) => __awaiter(void 0, void 0, void 0, fun
     const user = yield jsonwebtoken_1.default.decode(req.params.token);
     console.log(user);
     yield userController_1.VeryUser(user.id, user, req.params.token, res);
-    res.redirect("http://localhost:3000");
-    // res.redirect("https://b-manager.netlify.app");
+    // res.redirect("http://localhost:3000");
+    res.redirect("https://b-manager.netlify.app");
 }));
 // route to get a single user
 router.get("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
