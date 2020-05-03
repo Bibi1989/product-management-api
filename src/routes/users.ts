@@ -39,7 +39,7 @@ router.get("/user/:id", async (req, res) => {
 
 // route to create a user
 router.post("/register", async (req, res) => {
-  const user = await registerUser(req.body, res);
+  const user = await registerUser(req.body);
   if (user.status === "error") return res.status(404).json({ data: user });
   // res.header("auth", user.token);
   res.json({ data: user });
