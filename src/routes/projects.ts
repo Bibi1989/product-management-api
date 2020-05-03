@@ -7,8 +7,8 @@ import {
   getAProject,
   updateProject,
   deleteProject,
-  // inviteUsers,
-  // findUser,
+  findProject,
+  inviteUsers,
 } from "../controllers/projectController";
 
 const db = require("../../database/models/");
@@ -29,13 +29,19 @@ router.get("/:id", Auth, async (req: any, res) => {
   res.json(project);
 });
 
-// router.get("/invite/email", Auth, async (req: any, res) => {
-//   const { email } = req.body;
+router.post("/invite", Auth, async (req: any, res) => {
+  // const { id } = req.params;
+  const { email, id } = req.body;
 
-//   await findUser(email);
+  await findProject(id, email);
 
-//   res.json({ message: "Invitation sent!!!" });
-// });
+  res.json({ message: "Invitation sent!!!" });
+});
+router.get("/invite/:email/:id", Auth, async (req: any, res) => {
+  const { id, email } = req.params;
+  const project = await inviteUsers(email, id);
+  res.json({ data: project });
+});
 
 // route to create a project
 router.post("/", Auth, async (req: any, res) => {
@@ -53,12 +59,6 @@ router.put("/:id", Auth, async (req: any, res) => {
 
   res.json({ data: project });
 });
-
-// router.patch("/invite/:id", Auth, async (req: any, res) => {
-//   const { id } = req.params;
-//   const project = await inviteUsers(id, req.body);
-//   res.json({ data: project });
-// });
 
 router.delete("/:id", Auth, async (req: any, res) => {
   const { id } = req.params;

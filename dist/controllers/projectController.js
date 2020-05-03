@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const validateProject_1 = require("../validation/validateProject");
+const mail_1 = require("../mail/mail");
 const db = require("../../database/models");
 const { Project, User, Task } = db;
 exports.createProject = (id, project) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,7 +25,7 @@ exports.createProject = (id, project) => __awaiter(void 0, void 0, void 0, funct
         return { status: "error", error: error.start_date };
     if (error.end_date)
         return { status: "error", error: error.end_date };
-    const projects = Object.assign(Object.assign({}, value), { UserId: id });
+    const projects = Object.assign(Object.assign({}, value), { userArray: [id], UserId: id });
     try {
         const createdProject = yield Project.create(projects);
         return { status: "success", data: createdProject };
@@ -45,37 +46,47 @@ exports.getAllProjects = (id) => __awaiter(void 0, void 0, void 0, function* () 
         return { status: "error", error: error.message };
     }
 });
-// export const findUser = async (email: string, id: number) => {
-//   const message = `Click the link to verify your account ${
-//     "https://b-manager-api.herokuapp.com/api/v1/invite/" + id
-//   } ${email}`;
-//   sendMail(email, message, "Verify your account");
-// };
-// export const inviteUsers = async (
-//   email: string,
-//   id: number,
-//   project: ProjectInterface
-// ) => {
-//   const user = await User.findOne({
-//     where: {
-//       email,
-//     },
-//   });
-//   try {
-//     if (user) {
-//       let userArray = user.userArray.push(user.id);
-//       const updatedProject = {
-//         ...project,
-//         userArray,
-//       };
-//       return await Project.update(updatedProject, { where: { id } });
-//     } else {
-//       return { status: "error", error: "Cant update" };
-//     }
-//   } catch (error) {
-//     return { status: "error", error: error };
-//   }
-// };
+exports.findProject = (id, email) => __awaiter(void 0, void 0, void 0, function* () {
+    const message = `Click the link to verify your account ${"https://b-manager-api.herokuapp.com/api/v1/invite/" + email + "/" + id}`;
+    mail_1.sendMail(email, message, "Verify your account");
+});
+exports.inviteUsers = (email, id) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield User.findOne({
+        where: {
+            email,
+        },
+    });
+    const project = yield Project.findOne({
+        where: {
+            id,
+        },
+    });
+    console.log({ user: user.dataValues.id, project: project.dataValues });
+    try {
+        if (user) {
+            let userArray = project.dataValues.userArray;
+            console.log({ userArray });
+            userArray.push(user.dataValues.id);
+            console.log({ userArray });
+            const updatedProject = {
+                project_name: project.project_name,
+                description: project.description,
+                project_identifier: project.project_identifier,
+                start_date: project.start_date,
+                end_date: project.end_date,
+                UserId: project.UserId,
+                userArray,
+            };
+            return yield Project.update(updatedProject, { where: { id } });
+        }
+        else {
+            return { status: "error", error: "Cant update" };
+        }
+    }
+    catch (error) {
+        return { status: "error", error: error };
+    }
+});
 exports.getAProject = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const project = yield Project.findOne({
