@@ -79,9 +79,9 @@ exports.loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
         where: { email: value.email },
     });
     console.log(checkUser.dataValues.isVerify);
-    if (!checkUser.dataValues.isVerify)
+    if (!checkUser)
         return { status: "error", error: "You are yet to register" };
-    if (!checkUser.isVerify)
+    if (!checkUser.dataValues.isVerify)
         return { status: "error", error: "Check your mail an activate" };
     const validPassword = yield bcryptjs_1.default.compare(value.password, checkUser.dataValues.password);
     if (!validPassword)

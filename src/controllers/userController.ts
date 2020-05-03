@@ -91,10 +91,9 @@ export const loginUser = async (user: LoginInterface) => {
 
   console.log(checkUser.dataValues.isVerify);
 
-  if (!checkUser.dataValues.isVerify)
-    return { status: "error", error: "You are yet to register" };
+  if (!checkUser) return { status: "error", error: "You are yet to register" };
 
-  if (!checkUser.isVerify)
+  if (!checkUser.dataValues.isVerify)
     return { status: "error", error: "Check your mail an activate"!! };
 
   const validPassword = await bcrypt.compare(
