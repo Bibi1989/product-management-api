@@ -18,7 +18,7 @@ const validateUser_1 = require("../validation/validateUser");
 const mail_1 = require("../mail/mail");
 const db = require("../../database/models");
 const { User } = db;
-exports.registerUser = (user, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.registerUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const { value, error } = validateUser_1.validateUserRegister(user);
     if (error.first_name)
         return { status: "error", error: error.first_name };
@@ -44,7 +44,7 @@ exports.registerUser = (user, res) => __awaiter(void 0, void 0, void 0, function
         // const message = `Click the link to verify your account ${
         //   "https://b-manager.netlify.app/auth/v1/verify/" + token
         // }`;
-        mail_1.sendMail(value.email, message, "Verify your account", res);
+        mail_1.sendMail(value.email, message, "Verify your account");
         return { status: "success", user: registered, token };
     }
     catch (error) {

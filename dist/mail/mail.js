@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const nodemailer_sendgrid = require("nodemailer-sendgrid");
-exports.sendMail = (email, message, subject, res) => {
+exports.sendMail = (email, message, subject) => {
     // let transporter: any = nodemailer.createTransport(
     //   nodemailer_sendgrid({
     //     apiKey: process.env.SENDGRID_API_KEY,
@@ -26,9 +26,9 @@ exports.sendMail = (email, message, subject, res) => {
     };
     transporter.sendMail(mailOptions, (err, data) => {
         if (err)
-            res.json({ error: "Something went wrong!!!" });
+            console.log(err);
         else
-            res.json({ success: "Email sent successfully!!!" });
+            console.log("Email sent!!!");
     });
 };
 //# sourceMappingURL=mail.js.map

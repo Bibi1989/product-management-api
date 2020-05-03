@@ -1,12 +1,7 @@
 import nodemailer from "nodemailer";
 const nodemailer_sendgrid = require("nodemailer-sendgrid");
 
-export const sendMail = (
-  email: string,
-  message: string,
-  subject: string,
-  res: any
-) => {
+export const sendMail = (email: string, message: string, subject: string) => {
   // let transporter: any = nodemailer.createTransport(
   //   nodemailer_sendgrid({
   //     apiKey: process.env.SENDGRID_API_KEY,
@@ -28,7 +23,7 @@ export const sendMail = (
   };
 
   transporter.sendMail(mailOptions, (err: Error, data: any) => {
-    if (err) res.json({ error: "Something went wrong!!!" });
-    else res.json({ success: "Email sent successfully!!!" });
+    if (err) console.log(err);
+    else console.log("Email sent!!!");
   });
 };

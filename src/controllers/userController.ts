@@ -11,7 +11,7 @@ const db = require("../../database/models");
 
 const { User } = db;
 
-export const registerUser = async (user: UserInterface, res: any) => {
+export const registerUser = async (user: UserInterface) => {
   const { value, error } = validateUserRegister(user);
   if (error.first_name) return { status: "error", error: error.first_name };
   if (error.last_name) return { status: "error", error: error.last_name };
@@ -43,7 +43,7 @@ export const registerUser = async (user: UserInterface, res: any) => {
     //   "https://b-manager.netlify.app/auth/v1/verify/" + token
     // }`;
 
-    sendMail(value.email, message, "Verify your account", res);
+    sendMail(value.email, message, "Verify your account");
 
     return { status: "success", user: registered, token };
   } catch (error) {
