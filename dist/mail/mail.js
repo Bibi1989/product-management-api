@@ -25,10 +25,12 @@ exports.sendMail = (email, message, subject) => {
         text: message,
     };
     transporter.sendMail(mailOptions, (err, data) => {
-        if (err)
+        if (err) {
             console.log(err);
-        else
+        }
+        else {
             console.log("Email sent!!!" + data);
+        }
     });
 };
 //# sourceMappingURL=mail.js.map

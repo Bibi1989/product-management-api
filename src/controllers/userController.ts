@@ -89,6 +89,8 @@ export const loginUser = async (user: LoginInterface) => {
     where: { email: value.email },
   });
 
+  console.log(checkUser.dataValues.isVerify);
+
   if (!checkUser) return { status: "error", error: "You are yet to register" };
 
   if (!checkUser.isVerify)
