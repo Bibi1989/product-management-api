@@ -6,16 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const nodemailer_sendgrid = require("nodemailer-sendgrid");
 exports.sendMail = (email, message, subject, res) => {
-    let transporter = nodemailer_1.default.createTransport(nodemailer_sendgrid({
-        apiKey: process.env.SENDGRID_API_KEY,
-    }));
-    // let transporter: any = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth: {
-    //     user: process.env.EMAIL_MAIL_AUTH,
-    //     pass: process.env.PASSWORD_MAIL_AUTH,
-    //   },
-    // });
+    // let transporter: any = nodemailer.createTransport(
+    //   nodemailer_sendgrid({
+    //     apiKey: process.env.SENDGRID_API_KEY,
+    //   })
+    // );
+    let transporter = nodemailer_1.default.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.SENDGRID_USERNAME,
+            pass: process.env.SENDGRID_PASSWORD,
+        },
+    });
     const mailOptions = {
         from: "app169844034@heroku.com",
         to: email,

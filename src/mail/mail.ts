@@ -7,18 +7,18 @@ export const sendMail = (
   subject: string,
   res: any
 ) => {
-  let transporter: any = nodemailer.createTransport(
-    nodemailer_sendgrid({
-      apiKey: process.env.SENDGRID_API_KEY,
-    })
-  );
-  // let transporter: any = nodemailer.createTransport({
-  //   service: "gmail",
-  //   auth: {
-  //     user: process.env.EMAIL_MAIL_AUTH,
-  //     pass: process.env.PASSWORD_MAIL_AUTH,
-  //   },
-  // });
+  // let transporter: any = nodemailer.createTransport(
+  //   nodemailer_sendgrid({
+  //     apiKey: process.env.SENDGRID_API_KEY,
+  //   })
+  // );
+  let transporter: any = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.SENDGRID_USERNAME,
+      pass: process.env.SENDGRID_PASSWORD,
+    },
+  });
 
   const mailOptions = {
     from: "app169844034@heroku.com",
