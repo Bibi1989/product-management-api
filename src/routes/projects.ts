@@ -37,7 +37,7 @@ router.post("/invite", Auth, async (req: any, res) => {
 
   res.json({ message: "Invitation sent!!!" });
 });
-router.get("/invite/:email/:id", Auth, async (req: any, res) => {
+router.get("/invite/:email/:id", async (req: any, res) => {
   const { id, email } = req.params;
   const project = await inviteUsers(email, id);
   res.json({ data: project });
