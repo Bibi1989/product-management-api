@@ -80,6 +80,8 @@ exports.loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     });
     if (!checkUser)
         return { status: "error", error: "You are yet to register" };
+    if (!checkUser.isVerify)
+        return { status: "error", error: "Check your mail an activate" };
     const validPassword = yield bcryptjs_1.default.compare(value.password, checkUser.dataValues.password);
     if (!validPassword)
         return { status: "error", error: "Password is not valid" };

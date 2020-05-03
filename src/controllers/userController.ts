@@ -91,6 +91,9 @@ export const loginUser = async (user: LoginInterface) => {
 
   if (!checkUser) return { status: "error", error: "You are yet to register" };
 
+  if (!checkUser.isVerify)
+    return { status: "error", error: "Check your mail an activate"!! };
+
   const validPassword = await bcrypt.compare(
     value.password,
     checkUser.dataValues.password
