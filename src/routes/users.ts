@@ -51,5 +51,10 @@ router.post("/login", async (req, res) => {
   res.header("auth", user.token);
   res.json({ data: user });
 });
+router.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  const destroy = await db.User.destroy(id);
+  res.json({ destroy });
+});
 
 export default router;

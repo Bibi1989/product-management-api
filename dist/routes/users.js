@@ -55,5 +55,10 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
     res.header("auth", user.token);
     res.json({ data: user });
 }));
+router.delete("/delete/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const destroy = yield db.User.destroy(id);
+    res.json({ destroy });
+}));
 exports.default = router;
 //# sourceMappingURL=users.js.map
