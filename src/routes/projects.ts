@@ -7,6 +7,8 @@ import {
   getAProject,
   updateProject,
   deleteProject,
+  findProject,
+  inviteUsers,
 } from "../controllers/projectController";
 
 const db = require("../../database/models/");
@@ -25,6 +27,20 @@ router.get("/:id", Auth, async (req: any, res) => {
   const { id } = req.params;
   const project = await getAProject(id);
   res.json(project);
+});
+
+router.post("/invite", Auth, async (req: any, res) => {
+  // const { id } = req.params;
+  const { email, id } = req.body;
+
+  await findProject(id, email);
+
+  res.json({ message: "Invitation sent!!!" });
+});
+router.get("/invite/:email/:id", Auth, async (req: any, res) => {
+  const { id, email } = req.params;
+  const project = await inviteUsers(email, id);
+  res.json({ data: project });
 });
 
 // route to create a project

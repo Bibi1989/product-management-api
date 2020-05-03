@@ -26,6 +26,17 @@ router.get("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void
     const project = yield projectController_1.getAProject(id);
     res.json(project);
 }));
+router.post("/invite", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // const { id } = req.params;
+    const { email, id } = req.body;
+    yield projectController_1.findProject(id, email);
+    res.json({ message: "Invitation sent!!!" });
+}));
+router.get("/invite/:email/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, email } = req.params;
+    const project = yield projectController_1.inviteUsers(email, id);
+    res.json({ data: project });
+}));
 // route to create a project
 router.post("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.user;
