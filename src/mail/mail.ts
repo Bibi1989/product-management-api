@@ -16,7 +16,7 @@ export const sendMail = (email: string, message: string, subject: string) => {
   });
 
   const mailOptions = {
-    from: "bibiaremieye1@gmail.com",
+    from: "bmanagerapp@gmail.com",
     to: email,
     subject,
     text: message,

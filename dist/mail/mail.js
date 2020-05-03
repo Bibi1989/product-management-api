@@ -19,7 +19,7 @@ exports.sendMail = (email, message, subject) => {
         },
     });
     const mailOptions = {
-        from: "bibiaremieye1@gmail.com",
+        from: "bmanagerapp@gmail.com",
         to: email,
         subject,
         text: message,
