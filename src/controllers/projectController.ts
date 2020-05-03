@@ -42,7 +42,10 @@ export const getAllProjects = async (id: number) => {
 
 export const findProject = async (id: number, email: string) => {
   const message = `Click the link to verify your account ${
-    "https://b-manager-api.herokuapp.com/api/v1/invite/" + email + "/" + id
+    "https://b-manager-api.herokuapp.com/api/v1/projects/invite/" +
+    email +
+    "/" +
+    id
   }`;
 
   sendMail(email, message, "Verify your account");

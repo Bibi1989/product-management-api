@@ -47,7 +47,10 @@ exports.getAllProjects = (id) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.findProject = (id, email) => __awaiter(void 0, void 0, void 0, function* () {
-    const message = `Click the link to verify your account ${"https://b-manager-api.herokuapp.com/api/v1/invite/" + email + "/" + id}`;
+    const message = `Click the link to verify your account ${"https://b-manager-api.herokuapp.com/api/v1/projects/invite/" +
+        email +
+        "/" +
+        id}`;
     mail_1.sendMail(email, message, "Verify your account");
 });
 exports.inviteUsers = (email, id) => __awaiter(void 0, void 0, void 0, function* () {
