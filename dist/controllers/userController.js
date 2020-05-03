@@ -79,7 +79,7 @@ exports.loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
         where: { email: value.email },
     });
     console.log(checkUser.dataValues.isVerify);
-    if (!checkUser)
+    if (!checkUser.dataValues.isVerify)
         return { status: "error", error: "You are yet to register" };
     if (!checkUser.isVerify)
         return { status: "error", error: "Check your mail an activate" };
