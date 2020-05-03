@@ -10,8 +10,8 @@ export const sendMail = (email: string, message: string, subject: string) => {
   let transporter: any = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.SENDGRID_USERNAME,
-      pass: process.env.SENDGRID_PASSWORD,
+      user: process.env.EMAIL_MAIL_AUTH,
+      pass: process.env.PASSWORD_MAIL_AUTH,
     },
   });
 
