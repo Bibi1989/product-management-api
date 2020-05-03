@@ -40,7 +40,7 @@ export const registerUser = async (user: UserInterface) => {
     //   "http://localhost:5000/auth/v1/verify/" + token
     // }`;
     const message = `Click the link to verify your account ${
-      "https://b-manager.netlify.app/auth/v1/verify/" + token
+      "https://b-manager-api.herokuapp.com/auth/v1/verify/" + token
     }`;
 
     sendMail(value.email, message, "Verify your account");
