@@ -45,7 +45,7 @@ router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, functio
     const user = yield userController_1.registerUser(req.body, res);
     if (user.status === "error")
         return res.status(404).json({ data: user });
-    res.header("auth", user.token);
+    // res.header("auth", user.token);
     res.json({ data: user });
 }));
 router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
