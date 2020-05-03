@@ -1,5 +1,6 @@
 import { validateProject } from "../validation/validateProject";
 import { ProjectInterface } from "../interfaces/projectInterface";
+import { sendMail } from "../mail/mail";
 const db = require("../../database/models");
 
 const { Project, User, Task } = db;
@@ -12,7 +13,6 @@ export const createProject = async (id: number, project: ProjectInterface) => {
   if (error.description) return { status: "error", error: error.description };
   if (error.start_date) return { status: "error", error: error.start_date };
   if (error.end_date) return { status: "error", error: error.end_date };
-  console.log(value.project_identifier);
 
   const projects = {
     ...value,
@@ -38,6 +38,40 @@ export const getAllProjects = async (id: number) => {
     return { status: "error", error: error.message };
   }
 };
+
+// export const findUser = async (email: string, id: number) => {
+//   const message = `Click the link to verify your account ${
+//     "https://b-manager-api.herokuapp.com/api/v1/invite/" + id
+//   } ${email}`;
+
+//   sendMail(email, message, "Verify your account");
+// };
+
+// export const inviteUsers = async (
+//   email: string,
+//   id: number,
+//   project: ProjectInterface
+// ) => {
+//   const user = await User.findOne({
+//     where: {
+//       email,
+//     },
+//   });
+//   try {
+//     if (user) {
+//       let userArray = user.userArray.push(user.id);
+//       const updatedProject = {
+//         ...project,
+//         userArray,
+//       };
+//       return await Project.update(updatedProject, { where: { id } });
+//     } else {
+//       return { status: "error", error: "Cant update" };
+//     }
+//   } catch (error) {
+//     return { status: "error", error: error };
+//   }
+// };
 
 export const getAProject = async (id: number) => {
   try {

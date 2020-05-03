@@ -26,6 +26,11 @@ router.get("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void
     const project = yield projectController_1.getAProject(id);
     res.json(project);
 }));
+// router.get("/invite/email", Auth, async (req: any, res) => {
+//   const { email } = req.body;
+//   await findUser(email);
+//   res.json({ message: "Invitation sent!!!" });
+// });
 // route to create a project
 router.post("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.user;
@@ -37,6 +42,11 @@ router.put("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void
     const project = yield projectController_1.updateProject(id, req.body);
     res.json({ data: project });
 }));
+// router.patch("/invite/:id", Auth, async (req: any, res) => {
+//   const { id } = req.params;
+//   const project = await inviteUsers(id, req.body);
+//   res.json({ data: project });
+// });
 router.delete("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const project = yield projectController_1.deleteProject(id);

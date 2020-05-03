@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       project_name: DataTypes.STRING,
       description: DataTypes.STRING,
       project_identifier: DataTypes.STRING,
+      userArray: DataTypes.ARRAY(DataTypes.NUMBER),
       start_date: DataTypes.STRING,
       end_date: DataTypes.STRING,
     },

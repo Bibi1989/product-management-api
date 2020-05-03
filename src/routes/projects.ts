@@ -7,6 +7,8 @@ import {
   getAProject,
   updateProject,
   deleteProject,
+  // inviteUsers,
+  // findUser,
 } from "../controllers/projectController";
 
 const db = require("../../database/models/");
@@ -27,6 +29,14 @@ router.get("/:id", Auth, async (req: any, res) => {
   res.json(project);
 });
 
+// router.get("/invite/email", Auth, async (req: any, res) => {
+//   const { email } = req.body;
+
+//   await findUser(email);
+
+//   res.json({ message: "Invitation sent!!!" });
+// });
+
 // route to create a project
 router.post("/", Auth, async (req: any, res) => {
   const { id } = req.user;
@@ -43,6 +53,12 @@ router.put("/:id", Auth, async (req: any, res) => {
 
   res.json({ data: project });
 });
+
+// router.patch("/invite/:id", Auth, async (req: any, res) => {
+//   const { id } = req.params;
+//   const project = await inviteUsers(id, req.body);
+//   res.json({ data: project });
+// });
 
 router.delete("/:id", Auth, async (req: any, res) => {
   const { id } = req.params;
