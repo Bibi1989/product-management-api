@@ -17,7 +17,7 @@ exports.sendMail = (email, message, subject, res) => {
     //   },
     // });
     const mailOptions = {
-        from: process.env.EMAIL_MAIL_AUTH,
+        from: "app169844034@heroku.com",
         to: email,
         subject,
         text: message,
