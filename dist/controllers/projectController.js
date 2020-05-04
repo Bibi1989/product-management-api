@@ -152,8 +152,9 @@ exports.deleteProject = (id, projectId) => __awaiter(void 0, void 0, void 0, fun
             include: ["User"],
         });
         const user = yield User.findOne({
-            where: { UserId: Number(id) },
+            where: { id: Number(id) },
         });
+        console.log({ user });
         if (user) {
             const deletedProject = yield Project.destroy({
                 where: { id: Number(projectId) },
