@@ -157,7 +157,7 @@ exports.deleteProject = (id, projectId) => __awaiter(void 0, void 0, void 0, fun
         console.log({ user });
         if (user.dataValues.id === Number(id)) {
             const deletedProject = yield Project.destroy({
-                where: { UserId: Number(id) },
+                where: { UserId: Number(id), id: Number(projectId) },
             });
             return {
                 status: "success",
