@@ -1,7 +1,10 @@
 import { validateProject } from "../validation/validateProject";
 import { ProjectInterface } from "../interfaces/projectInterface";
 import { sendMail } from "../mail/mail";
+const { Op } = require("sequelize");
 const db = require("../../database/models");
+
+// const { Op } = Sequelize;
 
 const { Project, User, Task } = db;
 
@@ -29,13 +32,24 @@ export const createProject = async (id: number, project: ProjectInterface) => {
 
 export const getAllProjects = async (id: number) => {
   try {
-    const projects = await Project.findAll({
-      where: { UserId: id },
-      include: [User, Task],
+    // const projects = await Project.findAll({
+    //   where: {
+    //     userArray: {
+    //       [Op.contains]: id,
+    //     },
+    //   },
+    //   include: [User, Task],
+    // });
+
+    const find = await Project.findAll();
+    const projects = find.filter((f: any) => {
+      return f.dataValues.userArray.includes(id);
     });
+    console.log(...projects, id);
 
     return { status: "success", data: projects };
   } catch (error) {
+    console.log(error.message);
     return { status: "error", error: error.message };
   }
 };

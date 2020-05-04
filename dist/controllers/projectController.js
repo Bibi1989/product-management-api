@@ -11,7 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const validateProject_1 = require("../validation/validateProject");
 const mail_1 = require("../mail/mail");
+const { Op } = require("sequelize");
 const db = require("../../database/models");
+// const { Op } = Sequelize;
 const { Project, User, Task } = db;
 exports.createProject = (id, project) => __awaiter(void 0, void 0, void 0, function* () {
     const { value, error } = validateProject_1.validateProject(project);
@@ -36,13 +38,23 @@ exports.createProject = (id, project) => __awaiter(void 0, void 0, void 0, funct
 });
 exports.getAllProjects = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const projects = yield Project.findAll({
-            where: { UserId: id },
-            include: [User, Task],
+        // const projects = await Project.findAll({
+        //   where: {
+        //     userArray: {
+        //       [Op.contains]: id,
+        //     },
+        //   },
+        //   include: [User, Task],
+        // });
+        const find = yield Project.findAll();
+        const projects = find.filter((f) => {
+            return f.dataValues.userArray.includes(id);
         });
+        console.log(...projects, id);
         return { status: "success", data: projects };
     }
     catch (error) {
+        console.log(error.message);
         return { status: "error", error: error.message };
     }
 });
