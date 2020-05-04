@@ -48,9 +48,10 @@ router.put("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void
     const project = yield projectController_1.updateProject(id, req.body);
     res.json({ data: project });
 }));
-router.delete("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const project = yield projectController_1.deleteProject(id);
+router.delete("/:projectId", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { projectId } = req.params;
+    const { id } = req.user;
+    const project = yield projectController_1.deleteProject(id, projectId);
     res.json({ data: project });
 }));
 exports.default = router;

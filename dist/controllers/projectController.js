@@ -50,7 +50,6 @@ exports.getAllProjects = (id) => __awaiter(void 0, void 0, void 0, function* () 
         const projects = find.filter((f) => {
             return f.dataValues.userArray.includes(id);
         });
-        console.log(...projects, id);
         return { status: "success", data: projects };
     }
     catch (error) {
@@ -76,13 +75,10 @@ exports.inviteUsers = (email, id) => __awaiter(void 0, void 0, void 0, function*
             id,
         },
     });
-    console.log({ user: user.dataValues.id, project: project.dataValues });
     try {
         if (user) {
             let userArray = project.dataValues.userArray;
-            console.log({ userArray });
             userArray.push(user.dataValues.id);
-            console.log({ userArray });
             const updatedProject = {
                 project_name: project.project_name,
                 description: project.description,
@@ -148,22 +144,28 @@ exports.updateProject = (id, project) => __awaiter(void 0, void 0, void 0, funct
         return { status: "error", error: error.message };
     }
 });
-exports.deleteProject = (id) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteProject = (id, projectId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const deleted = yield Project.findOne({
-            where: { id },
+            where: { projectId },
             include: ["User"],
         });
-        if (deleted) {
+        const user = yield User.findOne({
+            where: { UserId: id },
+        });
+        if (user) {
             const deletedProject = yield Project.destroy({
-                where: { id },
+                where: { projectId },
             });
             return {
                 status: "success",
                 data: deletedProject,
             };
         }
-        return { status: "error", error: "Cant delete this project" };
+        return {
+            status: "error",
+            error: "You dont have the previlege to delete this project",
+        };
     }
     catch (error) {
         return { status: "error", error: error.message };

@@ -60,10 +60,11 @@ router.put("/:id", Auth, async (req: any, res) => {
   res.json({ data: project });
 });
 
-router.delete("/:id", Auth, async (req: any, res) => {
-  const { id } = req.params;
+router.delete("/:projectId", Auth, async (req: any, res) => {
+  const { projectId } = req.params;
+  const { id } = req.user;
 
-  const project = await deleteProject(id);
+  const project = await deleteProject(id, projectId);
 
   res.json({ data: project });
 });

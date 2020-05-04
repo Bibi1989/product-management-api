@@ -45,7 +45,6 @@ export const getAllProjects = async (id: number) => {
     const projects = find.filter((f: any) => {
       return f.dataValues.userArray.includes(id);
     });
-    console.log(...projects, id);
 
     return { status: "success", data: projects };
   } catch (error) {
@@ -76,13 +75,10 @@ export const inviteUsers = async (email: string, id: number) => {
       id,
     },
   });
-  console.log({ user: user.dataValues.id, project: project.dataValues });
   try {
     if (user) {
       let userArray = project.dataValues.userArray;
-      console.log({ userArray });
       userArray.push(user.dataValues.id);
-      console.log({ userArray });
       const updatedProject = {
         project_name: project.project_name,
         description: project.description,
@@ -143,22 +139,28 @@ export const updateProject = async (id: number, project: ProjectInterface) => {
   }
 };
 
-export const deleteProject = async (id: number) => {
+export const deleteProject = async (id: number, projectId: number) => {
   try {
     const deleted = await Project.findOne({
-      where: { id },
+      where: { projectId },
       include: ["User"],
     });
-    if (deleted) {
+    const user = await User.findOne({
+      where: { UserId: id },
+    });
+    if (user) {
       const deletedProject = await Project.destroy({
-        where: { id },
+        where: { projectId },
       });
       return {
         status: "success",
         data: deletedProject,
       };
     }
-    return { status: "error", error: "Cant delete this project" };
+    return {
+      status: "error",
+      error: "You dont have the previlege to delete this project",
+    };
   } catch (error) {
     return { status: "error", error: error.message };
   }
