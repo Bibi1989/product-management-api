@@ -38,18 +38,19 @@ exports.createProject = (id, project) => __awaiter(void 0, void 0, void 0, funct
 });
 exports.getAllProjects = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // const projects = await Project.findAll({
-        //   where: {
-        //     userArray: {
-        //       [Op.contains]: id,
-        //     },
-        //   },
-        //   include: [User, Task],
-        // });
-        const find = yield Project.findAll();
-        const projects = find.filter((f) => {
-            return f.dataValues.userArray.includes(id);
+        const projects = yield Project.findAll({
+            where: {
+                userArray: {
+                    [Op.contains]: [id],
+                },
+            },
+            include: [User, Task],
         });
+        console.log({ projects, id });
+        // const find = await Project.findAll();
+        // const projects = find.filter((f: any) => {
+        //   return f.dataValues.userArray.includes(id);
+        // });
         return { status: "success", data: projects };
     }
     catch (error) {

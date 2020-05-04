@@ -32,19 +32,20 @@ export const createProject = async (id: number, project: ProjectInterface) => {
 
 export const getAllProjects = async (id: number) => {
   try {
-    // const projects = await Project.findAll({
-    //   where: {
-    //     userArray: {
-    //       [Op.contains]: id,
-    //     },
-    //   },
-    //   include: [User, Task],
-    // });
-
-    const find = await Project.findAll();
-    const projects = find.filter((f: any) => {
-      return f.dataValues.userArray.includes(id);
+    const projects = await Project.findAll({
+      where: {
+        userArray: {
+          [Op.contains]: [id],
+        },
+      },
+      include: [User, Task],
     });
+    console.log({ projects, id });
+
+    // const find = await Project.findAll();
+    // const projects = find.filter((f: any) => {
+    //   return f.dataValues.userArray.includes(id);
+    // });
 
     return { status: "success", data: projects };
   } catch (error) {
