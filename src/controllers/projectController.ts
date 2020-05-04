@@ -152,7 +152,7 @@ export const deleteProject = async (id: number, projectId: number) => {
     console.log({ user });
     if (user.dataValues.id === Number(id)) {
       const deletedProject = await Project.destroy({
-        where: { id: Number(projectId) },
+        where: { UserId: Number(id) },
       });
       return {
         status: "success",
