@@ -140,17 +140,18 @@ export const updateProject = async (id: number, project: ProjectInterface) => {
 };
 
 export const deleteProject = async (id: number, projectId: number) => {
+  console.log({ id, projectId });
   try {
     const deleted = await Project.findOne({
-      where: { projectId },
+      where: { id: Number(projectId) },
       include: ["User"],
     });
     const user = await User.findOne({
-      where: { UserId: id },
+      where: { UserId: Number(id) },
     });
     if (user) {
       const deletedProject = await Project.destroy({
-        where: { projectId },
+        where: { id: Number(projectId) },
       });
       return {
         status: "success",
