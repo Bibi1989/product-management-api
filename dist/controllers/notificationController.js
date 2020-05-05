@@ -40,13 +40,12 @@ exports.getNotifications = (id) => __awaiter(void 0, void 0, void 0, function* (
         return { status: "error", error: error.message };
     }
 });
-exports.deleteNotification = (id) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteNotification = (deleteId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const createdNotification = yield Notification.findAll({
-            where: { UserId: id },
-            include: [Project, User, Task],
+        const deleted = yield Notification.destroy({
+            where: { id: deleteId },
         });
-        return { status: "success", data: createdNotification };
+        return { status: "success", data: deleteId };
     }
     catch (error) {
         return { status: "error", error: error.message };

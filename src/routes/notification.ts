@@ -3,6 +3,7 @@ import { Auth } from "./userAuth";
 import {
   getNotifications,
   createNotification,
+  deleteNotification,
 } from "../controllers/notificationController";
 
 const db = require("../../database/models/");
@@ -26,13 +27,12 @@ router.post("/", Auth, async (req: any, res) => {
   res.json({ message: "notification sent!!!" });
 });
 
-// router.delete("/:projectId", Auth, async (req: any, res) => {
-//   const { projectId } = req.params;
-//   const { id } = req.user;
+router.delete("/:id", Auth, async (req: any, res) => {
+  const { id } = req.params;
 
-//   const project = await d(id, projectId);
+  await deleteNotification(id);
 
-//   res.json({ data: project });
-// });
+  res.json({ data: "Notification deleted!!!" });
+});
 
 export default router;

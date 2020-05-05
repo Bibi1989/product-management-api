@@ -37,13 +37,12 @@ export const getNotifications = async (id: number) => {
     return { status: "error", error: error.message };
   }
 };
-export const deleteNotification = async (id: number) => {
+export const deleteNotification = async (deleteId: number) => {
   try {
-    const createdNotification = await Notification.findAll({
-      where: { UserId: id },
-      include: [Project, User, Task],
+    const deleted = await Notification.destroy({
+      where: { id: deleteId },
     });
-    return { status: "success", data: createdNotification };
+    return { status: "success", data: deleteId };
   } catch (error) {
     return { status: "error", error: error.message };
   }

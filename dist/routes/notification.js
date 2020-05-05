@@ -27,11 +27,10 @@ router.post("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0
     yield notificationController_1.createNotification(id, notify, ProjectId, TaskId);
     res.json({ message: "notification sent!!!" });
 }));
-// router.delete("/:projectId", Auth, async (req: any, res) => {
-//   const { projectId } = req.params;
-//   const { id } = req.user;
-//   const project = await d(id, projectId);
-//   res.json({ data: project });
-// });
+router.delete("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    yield notificationController_1.deleteNotification(id);
+    res.json({ data: "Notification deleted!!!" });
+}));
 exports.default = router;
 //# sourceMappingURL=notification.js.map
