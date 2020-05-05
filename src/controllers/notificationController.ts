@@ -42,7 +42,17 @@ export const deleteNotification = async (deleteId: number) => {
     const deleted = await Notification.destroy({
       where: { id: deleteId },
     });
-    return { status: "success", data: deleteId };
+    return { status: "success", data: deleted };
+  } catch (error) {
+    return { status: "error", error: error.message };
+  }
+};
+export const deleteAllNotifications = async (UserId: number) => {
+  try {
+    const deleted = await Notification.destroy({
+      where: { UserId },
+    });
+    return { status: "success", data: deleted };
   } catch (error) {
     return { status: "error", error: error.message };
   }

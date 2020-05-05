@@ -45,7 +45,18 @@ exports.deleteNotification = (deleteId) => __awaiter(void 0, void 0, void 0, fun
         const deleted = yield Notification.destroy({
             where: { id: deleteId },
         });
-        return { status: "success", data: deleteId };
+        return { status: "success", data: deleted };
+    }
+    catch (error) {
+        return { status: "error", error: error.message };
+    }
+});
+exports.deleteAllNotifications = (UserId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const deleted = yield Notification.destroy({
+            where: { UserId },
+        });
+        return { status: "success", data: deleted };
     }
     catch (error) {
         return { status: "error", error: error.message };

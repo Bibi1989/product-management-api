@@ -4,6 +4,7 @@ import {
   getNotifications,
   createNotification,
   deleteNotification,
+  deleteAllNotifications,
 } from "../controllers/notificationController";
 
 const db = require("../../database/models/");
@@ -32,7 +33,14 @@ router.delete("/:id", Auth, async (req: any, res) => {
 
   await deleteNotification(id);
 
-  res.json({ data: "Notification deleted!!!" });
+  res.json({ data: "Notification cleared!!!" });
+});
+router.delete("/", Auth, async (req: any, res) => {
+  const { id } = req.user;
+
+  await deleteAllNotifications(id);
+
+  res.json({ data: "All Notification cleared!!!" });
 });
 
 export default router;

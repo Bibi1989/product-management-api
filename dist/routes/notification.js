@@ -30,7 +30,12 @@ router.post("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0
 router.delete("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     yield notificationController_1.deleteNotification(id);
-    res.json({ data: "Notification deleted!!!" });
+    res.json({ data: "Notification cleared!!!" });
+}));
+router.delete("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.user;
+    yield notificationController_1.deleteAllNotifications(id);
+    res.json({ data: "All Notification cleared!!!" });
 }));
 exports.default = router;
 //# sourceMappingURL=notification.js.map
