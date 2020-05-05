@@ -32,7 +32,6 @@ exports.createTask = (id, project) => __awaiter(void 0, void 0, void 0, function
     if (!findProject)
         return { status: "error", error: "Project is not found" };
     const tasks = Object.assign(Object.assign({}, value), { UserId: id, project_sequence: `#${unique.slice(0, 6)}`, ProjectId: value.ProjectId });
-    console.log({ tasks });
     try {
         const createdTask = yield Task.create(tasks);
         return { status: "success", data: createdTask };
@@ -150,7 +149,10 @@ exports.deleteTask = (id) => __awaiter(void 0, void 0, void 0, function* () {
             });
             return {
                 status: "success",
-                data: deletedTask,
+                data: yield Task.findOne({
+                    where: { id },
+                    include: [User, Project],
+                }),
             };
         }
         return { status: "error", error: "Cant update this project" };

@@ -4,8 +4,6 @@ import { sendMail } from "../mail/mail";
 const { Op } = require("sequelize");
 const db = require("../../database/models");
 
-// const { Op } = Sequelize;
-
 const { Project, User, Task } = db;
 
 export const createProject = async (id: number, project: ProjectInterface) => {

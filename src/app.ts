@@ -16,6 +16,7 @@ var app = express();
 import userRoute from "./routes/users";
 import projectRoute from "./routes/projects";
 import taskRoute from "./routes/tasks";
+import notifyRoute from "./routes/notification";
 
 app.use(cors());
 app.use(logger("dev"));
@@ -29,6 +30,7 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use("/auth/v1", userRoute);
 app.use("/api/v1/projects", projectRoute);
 app.use("/api/v1/tasks", taskRoute);
+app.use("/api/v1/notify", notifyRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {

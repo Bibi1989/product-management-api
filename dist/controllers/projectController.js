@@ -13,7 +13,6 @@ const validateProject_1 = require("../validation/validateProject");
 const mail_1 = require("../mail/mail");
 const { Op } = require("sequelize");
 const db = require("../../database/models");
-// const { Op } = Sequelize;
 const { Project, User, Task } = db;
 exports.createProject = (id, project) => __awaiter(void 0, void 0, void 0, function* () {
     const { value, error } = validateProject_1.validateProject(project);

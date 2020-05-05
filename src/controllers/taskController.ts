@@ -27,7 +27,6 @@ export const createTask = async (id: number, project: TaskInterface) => {
     project_sequence: `#${unique.slice(0, 6)}`,
     ProjectId: value.ProjectId,
   };
-  console.log({ tasks });
   try {
     const createdTask = await Task.create(tasks);
     return { status: "success", data: createdTask };
@@ -144,7 +143,10 @@ export const deleteTask = async (id: number) => {
       });
       return {
         status: "success",
-        data: deletedTask,
+        data: await Task.findOne({
+          where: { id },
+          include: [User, Project],
+        }),
       };
     }
     return { status: "error", error: "Cant update this project" };
