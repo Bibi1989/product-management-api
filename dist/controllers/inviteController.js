@@ -53,11 +53,6 @@ exports.findProject = (id, email) => __awaiter(void 0, void 0, void 0, function*
     mail_1.sendMail(email, message, "Verify your account");
 });
 exports.inviteUsers = (user, projectId) => __awaiter(void 0, void 0, void 0, function* () {
-    //   const user = await User.findOne({
-    //     where: {
-    //       email,
-    //     },
-    //   });
     const project = yield Project.findOne({
         where: {
             id: projectId,
@@ -97,33 +92,17 @@ exports.inviteUsers = (user, projectId) => __awaiter(void 0, void 0, void 0, fun
         return { status: "error", error: error };
     }
 });
-exports.deleteProject = (id, projectId) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log({ id, projectId });
+exports.deleteInvite = (inviteId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const deleted = yield Project.findOne({
-            where: { id: Number(projectId) },
-            include: ["User"],
+        yield Invite.destroy({
+            where: {
+                id: inviteId,
+            },
         });
-        const user = yield User.findOne({
-            where: { id: Number(id) },
-        });
-        console.log({ user });
-        if (user.dataValues.id === Number(id)) {
-            const deletedProject = yield Project.destroy({
-                where: { UserId: Number(id), id: Number(projectId) },
-            });
-            return {
-                status: "success",
-                data: deletedProject,
-            };
-        }
-        return {
-            status: "error",
-            error: "You dont have the previlege to delete this project",
-        };
+        return { status: "success", data: "You are a collaborator!!!" };
     }
     catch (error) {
-        return { status: "error", error: error.message };
+        return { status: "error", data: error.message };
     }
 });
 //# sourceMappingURL=inviteController.js.map

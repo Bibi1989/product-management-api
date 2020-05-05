@@ -31,6 +31,9 @@ router.post("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0
     const invites = yield inviteController_1.createInvite(user, email, ProjectId);
     res.json({ data: invites });
 }));
-router.delete("/delete/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () { }));
+router.delete("/:deleteId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield inviteController_1.deleteInvite(req.params.deleteId);
+    res.json({ data: response });
+}));
 exports.default = router;
 //# sourceMappingURL=invite.js.map

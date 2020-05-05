@@ -3,6 +3,7 @@ import {
   createInvite,
   getAllIvites,
   inviteUsers,
+  deleteInvite,
 } from "../controllers/inviteController";
 import { Auth } from "./userAuth";
 
@@ -28,6 +29,9 @@ router.post("/", Auth, async (req: any, res) => {
   res.json({ data: invites });
 });
 
-router.delete("/delete/:id", async (req, res) => {});
+router.delete("/:deleteId", async (req: any, res) => {
+  const response = await deleteInvite(req.params.deleteId);
+  res.json({ data: response });
+});
 
 export default router;

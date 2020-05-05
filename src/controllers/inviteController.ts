@@ -1,5 +1,3 @@
-import { validateProject } from "../validation/validateProject";
-import { ProjectInterface } from "../interfaces/projectInterface";
 import { sendMail } from "../mail/mail";
 const { Op } = require("sequelize");
 const db = require("../../database/models");
@@ -61,11 +59,6 @@ export const findProject = async (id: number, email: string) => {
 };
 
 export const inviteUsers = async (user: any, projectId: number) => {
-  //   const user = await User.findOne({
-  //     where: {
-  //       email,
-  //     },
-  //   });
   const project = await Project.findOne({
     where: {
       id: projectId,
@@ -104,31 +97,15 @@ export const inviteUsers = async (user: any, projectId: number) => {
   }
 };
 
-export const deleteProject = async (id: number, projectId: number) => {
-  console.log({ id, projectId });
+export const deleteInvite = async (inviteId: number) => {
   try {
-    const deleted = await Project.findOne({
-      where: { id: Number(projectId) },
-      include: ["User"],
+    await Invite.destroy({
+      where: {
+        id: inviteId,
+      },
     });
-    const user = await User.findOne({
-      where: { id: Number(id) },
-    });
-    console.log({ user });
-    if (user.dataValues.id === Number(id)) {
-      const deletedProject = await Project.destroy({
-        where: { UserId: Number(id), id: Number(projectId) },
-      });
-      return {
-        status: "success",
-        data: deletedProject,
-      };
-    }
-    return {
-      status: "error",
-      error: "You dont have the previlege to delete this project",
-    };
+    return { status: "success", data: "You are a collaborator!!!" };
   } catch (error) {
-    return { status: "error", error: error.message };
+    return { status: "error", data: error.message };
   }
 };
