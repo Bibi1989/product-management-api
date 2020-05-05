@@ -17,6 +17,7 @@ import userRoute from "./routes/users";
 import projectRoute from "./routes/projects";
 import taskRoute from "./routes/tasks";
 import notifyRoute from "./routes/notification";
+import inviteRoute from "./routes/invite";
 
 app.use(cors());
 app.use(logger("dev"));
@@ -31,6 +32,7 @@ app.use("/auth/v1", userRoute);
 app.use("/api/v1/projects", projectRoute);
 app.use("/api/v1/tasks", taskRoute);
 app.use("/api/v1/notify", notifyRoute);
+app.use("/api/v1/invite", inviteRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {

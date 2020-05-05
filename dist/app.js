@@ -20,6 +20,7 @@ const users_1 = __importDefault(require("./routes/users"));
 const projects_1 = __importDefault(require("./routes/projects"));
 const tasks_1 = __importDefault(require("./routes/tasks"));
 const notification_1 = __importDefault(require("./routes/notification"));
+const invite_1 = __importDefault(require("./routes/invite"));
 app.use(cors_1.default());
 app.use(morgan_1.default("dev"));
 app.use(express_1.default.json());
@@ -31,6 +32,7 @@ app.use("/auth/v1", users_1.default);
 app.use("/api/v1/projects", projects_1.default);
 app.use("/api/v1/tasks", tasks_1.default);
 app.use("/api/v1/notify", notification_1.default);
+app.use("/api/v1/invite", invite_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(http_errors_1.default(404));
