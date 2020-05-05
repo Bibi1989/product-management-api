@@ -84,7 +84,7 @@ export const inviteUsers = async (user: any, projectId: number) => {
         start_date: project.start_date,
         end_date: project.end_date,
         UserId: project.UserId,
-        userArray,
+        userArray: [...new Set(userArray)],
       };
       return await Project.update(updatedProject, {
         where: { id: Number(projectId) },

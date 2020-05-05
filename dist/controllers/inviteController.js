@@ -78,7 +78,7 @@ exports.inviteUsers = (user, projectId) => __awaiter(void 0, void 0, void 0, fun
                 start_date: project.start_date,
                 end_date: project.end_date,
                 UserId: project.UserId,
-                userArray,
+                userArray: [...new Set(userArray)],
             };
             return yield Project.update(updatedProject, {
                 where: { id: Number(projectId) },
