@@ -149,10 +149,7 @@ exports.deleteTask = (id) => __awaiter(void 0, void 0, void 0, function* () {
             });
             return {
                 status: "success",
-                data: yield Task.findOne({
-                    where: { id },
-                    include: [User, Project],
-                }),
+                data: deletedTask,
             };
         }
         return { status: "error", error: "Cant update this project" };

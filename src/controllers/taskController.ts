@@ -143,10 +143,7 @@ export const deleteTask = async (id: number) => {
       });
       return {
         status: "success",
-        data: await Task.findOne({
-          where: { id },
-          include: [User, Project],
-        }),
+        data: deletedTask,
       };
     }
     return { status: "error", error: "Cant update this project" };
