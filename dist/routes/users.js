@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const userController_1 = require("../controllers/userController");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const userAuth_1 = require("./userAuth");
 const db = require("../../database/models/");
 const { User, Project } = db;
 const router = express_1.Router();
@@ -24,6 +25,11 @@ router.get("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         include: [Project],
     });
     res.json({ users });
+}));
+router.get("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.user;
+    const user = yield userController_1.loadUser(Number(id));
+    res.json({ user });
 }));
 router.get("/verify/:token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield jsonwebtoken_1.default.decode(req.params.token);

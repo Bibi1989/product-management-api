@@ -3,8 +3,10 @@ import {
   registerUser,
   loginUser,
   VeryUser,
+  loadUser,
 } from "../controllers/userController";
 import jwt from "jsonwebtoken";
+import { Auth } from "./userAuth";
 
 const db = require("../../database/models/");
 
@@ -18,6 +20,11 @@ router.get("/user", async (req, res) => {
     include: [Project],
   });
   res.json({ users });
+});
+router.get("/", Auth, async (req: any, res) => {
+  const { id } = req.user;
+  const user = await loadUser(Number(id));
+  res.json({ user });
 });
 
 router.get("/verify/:token", async (req: any, res) => {

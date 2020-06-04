@@ -10,9 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mail_1 = require("../mail/mail");
-const { Op } = require("sequelize");
 const db = require("../../database/models");
-const { Project, User, Task, Notification, Invite } = db;
+const { Project, Invite } = db;
 exports.createInvite = (user, receiver, ProjectId) => __awaiter(void 0, void 0, void 0, function* () {
     //   const { sender, receiver } = user;
     //   const sender_details = await User.findOne({ where: { email: sender } });

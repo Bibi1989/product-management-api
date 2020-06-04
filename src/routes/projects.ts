@@ -57,6 +57,10 @@ router.put("/:id", Auth, async (req: any, res) => {
 
   const project = await updateProject(id, req.body);
 
+  if (project.status === "error") {
+    return res.status(404).json({ data: project });
+  }
+
   res.json({ data: project });
 });
 

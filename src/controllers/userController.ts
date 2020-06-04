@@ -9,7 +9,7 @@ import { sendMail } from "../mail/mail";
 import { Auth } from "../routes/userAuth";
 const db = require("../../database/models");
 
-const { User } = db;
+const { User, Project, Task } = db;
 
 export const registerUser = async (user: UserInterface) => {
   const { value, error } = validateUserRegister(user);
@@ -114,5 +114,18 @@ export const loginUser = async (user: LoginInterface) => {
     };
   } catch (error) {
     return error.message;
+  }
+};
+
+export const loadUser = async (id: number) => {
+  console.log(id);
+  try {
+    const user = await User.findOne({
+      where: { id },
+      include: [Project, Task],
+    });
+    return { status: "success", user };
+  } catch (error) {
+    return { status: "error", error: error.message };
   }
 };

@@ -17,7 +17,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const validateUser_1 = require("../validation/validateUser");
 const mail_1 = require("../mail/mail");
 const db = require("../../database/models");
-const { User } = db;
+const { User, Project, Task } = db;
 exports.registerUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const { value, error } = validateUser_1.validateUserRegister(user);
     if (error.first_name)
@@ -96,6 +96,19 @@ exports.loginUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         return error.message;
+    }
+});
+exports.loadUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(id);
+    try {
+        const user = yield User.findOne({
+            where: { id },
+            include: [Project, Task],
+        });
+        return { status: "success", user };
+    }
+    catch (error) {
+        return { status: "error", error: error.message };
     }
 });
 //# sourceMappingURL=userController.js.map

@@ -1,13 +1,7 @@
 import { sendMail } from "../mail/mail";
-const { Op } = require("sequelize");
 const db = require("../../database/models");
 
-const { Project, User, Task, Notification, Invite } = db;
-
-interface InfoInterface {
-  sender: string;
-  receiver: string;
-}
+const { Project, Invite } = db;
 
 export const createInvite = async (
   user: any,

@@ -46,6 +46,9 @@ router.post("/", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0
 router.put("/:id", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const project = yield projectController_1.updateProject(id, req.body);
+    if (project.status === "error") {
+        return res.status(404).json({ data: project });
+    }
     res.json({ data: project });
 }));
 router.delete("/:projectId", userAuth_1.Auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
