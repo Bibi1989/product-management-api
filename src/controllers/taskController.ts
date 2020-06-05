@@ -77,10 +77,10 @@ export const getOne = async (id: number) => {
 export const updateTask = async (id: number, task: TaskInterface) => {
   const { value, error } = validateTask(task);
   if (error.summary) return { status: "error", error: error.summary };
-  if (error.status) return { status: "error", error: error.status };
-  if (error.priorty) return { status: "error", error: error.priorty };
-  if (error.project_sequence)
-    return { status: "error", error: error.project_sequence };
+  // if (error.status) return { status: "error", error: error.status };
+  // if (error.priorty) return { status: "error", error: error.priorty };
+  // if (error.project_sequence)
+  //   return { status: "error", error: error.project_sequence };
   if (error.due_date) return { status: "error", error: error.due_date };
 
   try {
