@@ -7,7 +7,6 @@ require("dotenv").config();
 const app = require("../dist/app").default;
 const debug = require("debug")("pern:server");
 const http = require("http");
-const models = require("../database/models");
 
 /**
  * Get port from environment and store in Express.

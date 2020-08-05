@@ -2,37 +2,46 @@ import express, { Request, Response, NextFunction } from "express";
 import createError, { HttpError } from "http-errors";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import swaggerUi from "swagger-ui-express";
 import cors from "cors";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
-const swaggerDoc = require("../swagger.json");
+import fileupload from "express-fileupload";
+
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
 
+const connectDB = async () => {
+  try {
+    await mongoose.connect("mongodb://localhost:27017/buycar", {
+      useUnifiedTopology: true,
+      useFindAndModify: true,
+      useNewUrlParser: true,
+    });
+    console.log("connected to db!!!");
+  } catch (error) {
+    console.log("error connecting to db!!!");
+  }
+};
+
+connectDB();
+
 var app = express();
 
 // import routes from the route module
-import userRoute from "./routes/users";
-import projectRoute from "./routes/projects";
-import taskRoute from "./routes/tasks";
-import notifyRoute from "./routes/notification";
-import inviteRoute from "./routes/invite";
+import faqRoute from "./routes/faq.route";
+import carRoute from "./routes/car.route";
 
+app.use(fileupload({ useTempFiles: true }));
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-
 // endpoints for imported routes
-app.use("/auth/v1", userRoute);
-app.use("/api/v1/projects", projectRoute);
-app.use("/api/v1/tasks", taskRoute);
-app.use("/api/v1/notify", notifyRoute);
-app.use("/api/v1/invite", inviteRoute);
+app.use("/api/v1", faqRoute);
+app.use("/api/v1", carRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req: Request, res: Response, next: NextFunction) {
