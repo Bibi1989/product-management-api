@@ -12,57 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const cloudinary_1 = require("cloudinary");
 const Car_model_1 = __importDefault(require("../models/Car.model"));
-const cars = [
-    {
-        name: "bmw",
-        model: "x6",
-        description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam voluptatibus, nemo iusto quos cumque harum nihil fuga pariatur odio ipsa eveniet voluptate corrupti. Nostrum dolorum ratione illum voluptate nulla earum!",
-        price: "23000000",
-        distance: "65000",
-        fuel_type: "petrol",
-        photo_url: "",
-        color: "black",
-        year: "2017",
-        location: "Lagos",
-    },
-    {
-        name: "bmw",
-        model: "x7",
-        description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam voluptatibus, nemo iusto quos cumque harum nihil fuga pariatur odio ipsa eveniet voluptate corrupti. Nostrum dolorum ratione illum voluptate nulla earum!",
-        price: "2000000",
-        distance: "40000",
-        fuel_type: "petrol",
-        photo_url: "",
-        color: "grey",
-        year: "2018",
-        location: "Abuja",
-    },
-    {
-        name: "honda",
-        model: "civic",
-        description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam voluptatibus, nemo iusto quos cumque harum nihil fuga pariatur odio ipsa eveniet voluptate corrupti. Nostrum dolorum ratione illum voluptate nulla earum!",
-        price: "20000000",
-        distance: "11000",
-        fuel_type: "petrol",
-        photo_url: "",
-        color: "dark blue",
-        year: "2017",
-        location: "Abuja",
-    },
-    {
-        name: "lexus",
-        model: "gs 550",
-        description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam voluptatibus, nemo iusto quos cumque harum nihil fuga pariatur odio ipsa eveniet voluptate corrupti. Nostrum dolorum ratione illum voluptate nulla earum!",
-        price: "5800000",
-        distance: "70230",
-        fuel_type: "petrol",
-        photo_url: "",
-        color: "black",
-        year: "2015",
-        location: "Lagos",
-    },
-];
+cloudinary_1.v2.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 exports.getCars = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const cars = yield Car_model_1.default.find().sort({ createdAt: -1 });
@@ -126,7 +82,6 @@ exports.getMakes = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getModels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let name = req.params.model.toLowerCase();
-        console.log(name);
         const car = yield Car_model_1.default.find({
             name,
         }).select("model name");
@@ -145,11 +100,9 @@ exports.getModels = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getCarBaseOnMake = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let name = req.params.name.toLowerCase();
-        console.log({ name });
         const car = yield Car_model_1.default.find({
             name,
         });
-        console.log(car);
         res.json({
             status: "success",
             data: car,
@@ -194,6 +147,30 @@ exports.getCarBaseOnLocation = (req, res) => __awaiter(void 0, void 0, void 0, f
         res.json({
             status: "success",
             data: car,
+        });
+    }
+    catch (error) {
+        res.status(404).json({
+            status: "error",
+            error: error.message,
+        });
+    }
+});
+exports.filterByPrice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        let min = req.query.min;
+        let max = req.query.max;
+        // {
+        //   price: {
+        //     $gte: min,
+        //     $lte: max,
+        //   },
+        // }
+        const price = yield Car_model_1.default.find();
+        let data = price.filter((p) => Number(p.price) >= Number(min) && Number(p.price) <= Number(max));
+        res.json({
+            status: "success",
+            data,
         });
     }
     catch (error) {
