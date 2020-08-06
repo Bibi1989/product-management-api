@@ -165,13 +165,6 @@ export const filterByPrice = async (req: Request, res: Response) => {
     let min = req.query.min;
     let max = req.query.max;
 
-    // {
-    //   price: {
-    //     $gte: min,
-    //     $lte: max,
-    //   },
-    // }
-
     const price = await Car.find();
 
     let data = price.filter(
@@ -191,14 +184,36 @@ export const filterByPrice = async (req: Request, res: Response) => {
   }
 };
 
-export const createCar = async (req: Request, res: Response) => {
+export const createCar = async (req: any, res: Response) => {
   try {
-    const car = new Car(req.body);
-    await car.save();
-    res.json({
-      status: "success",
-      data: car,
-    });
+    const file = req.files;
+    if (file) {
+      const img = await v2.uploader.upload(
+        file.file.tempFilePath,
+        { folder: "buycar" },
+        (err: Error, result: any) => {
+          if (err) {
+            console.log(err);
+          }
+          return result;
+        }
+      );
+      const car = new Car({ ...req.body, photo_url: img.secure_url });
+      await car.save();
+
+      await car.save();
+      res.json({
+        status: "success",
+        data: car,
+      });
+    } else {
+      const car = new Car(req.body);
+      await car.save();
+      res.json({
+        status: "success",
+        data: car,
+      });
+    }
     // cars.forEach(async (car: any) => {
     //   const saveCar = new Car(car);
     //   await saveCar.save();

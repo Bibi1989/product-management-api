@@ -3,26 +3,14 @@ import createError, { HttpError } from "http-errors";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
-import mongoose from "mongoose";
+
 import dotenv from "dotenv";
 import fileupload from "express-fileupload";
+import { connectDB } from "./dbConnect";
 
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
-
-const connectDB = async () => {
-  try {
-    await mongoose.connect("mongodb://localhost:27017/buycar", {
-      useUnifiedTopology: true,
-      useFindAndModify: true,
-      useNewUrlParser: true,
-    });
-    console.log("connected to db!!!");
-  } catch (error) {
-    console.log("error connecting to db!!!");
-  }
-};
 
 connectDB();
 

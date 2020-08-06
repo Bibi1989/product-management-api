@@ -160,12 +160,6 @@ exports.filterByPrice = (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         let min = req.query.min;
         let max = req.query.max;
-        // {
-        //   price: {
-        //     $gte: min,
-        //     $lte: max,
-        //   },
-        // }
         const price = yield Car_model_1.default.find();
         let data = price.filter((p) => Number(p.price) >= Number(min) && Number(p.price) <= Number(max));
         res.json({
@@ -182,12 +176,30 @@ exports.filterByPrice = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.createCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const car = new Car_model_1.default(req.body);
-        yield car.save();
-        res.json({
-            status: "success",
-            data: car,
-        });
+        const file = req.files;
+        if (file) {
+            const img = yield cloudinary_1.v2.uploader.upload(file.file.tempFilePath, { folder: "buycar" }, (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                return result;
+            });
+            const car = new Car_model_1.default(Object.assign(Object.assign({}, req.body), { photo_url: img.secure_url }));
+            yield car.save();
+            yield car.save();
+            res.json({
+                status: "success",
+                data: car,
+            });
+        }
+        else {
+            const car = new Car_model_1.default(req.body);
+            yield car.save();
+            res.json({
+                status: "success",
+                data: car,
+            });
+        }
         // cars.forEach(async (car: any) => {
         //   const saveCar = new Car(car);
         //   await saveCar.save();
