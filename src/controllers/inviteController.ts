@@ -8,9 +8,6 @@ export const createInvite = async (
   receiver: string,
   ProjectId: number
 ) => {
-  //   const { sender, receiver } = user;
-
-  //   const sender_details = await User.findOne({ where: { email: sender } });
   const data = {
     receiver,
     sender: user.email,

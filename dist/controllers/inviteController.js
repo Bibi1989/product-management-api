@@ -13,8 +13,6 @@ const mail_1 = require("../mail/mail");
 const db = require("../../database/models");
 const { Project, Invite } = db;
 exports.createInvite = (user, receiver, ProjectId) => __awaiter(void 0, void 0, void 0, function* () {
-    //   const { sender, receiver } = user;
-    //   const sender_details = await User.findOne({ where: { email: sender } });
     const data = {
         receiver,
         sender: user.email,
